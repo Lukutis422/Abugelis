@@ -1,0 +1,1925 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Red Bull – Suteikia sparnus</title>
+<meta name="description" content="Neoficiali Red Bull reklamos koncepcija: visi skoniai, ledinis intro ir garsas.">
+<meta name="theme-color" content="#04060d">
+<meta property="og:title" content="Red Bull – Suteikia sparnus">
+<meta property="og:description" content="Visi 12 Red Bull skonių, testas, istorija ir žaidimas „Pagauk skardinę“.">
+<meta property="og:image" content="https://comforting-cuchufli-3007bb.netlify.app/img/cans/original.webp">
+<link rel="icon" type="image/webp" href="img/cans/original.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/cans/original.webp">
+<style>
+  :root {
+    --bg: #04060d;
+    --red: #db0a40;
+    --yellow: #ffc72c;
+    --text: #f3f5fa;
+    --muted: #9aa5bf;
+    --line: rgba(255,255,255,.12);
+    --accent: #2f55d4;
+    --ease: cubic-bezier(.2,.8,.2,1);
+    --cx: 70%;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  body {
+    color: var(--text);
+    font: 400 16px/1.6 "Inter", system-ui, sans-serif;
+    background:
+      radial-gradient(1100px 760px at 70% 40%, #14245a 0%, transparent 62%),
+      radial-gradient(900px 700px at 0% 100%, #2b0816 0%, transparent 60%),
+      var(--bg);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+  body.intro, body.modal { overflow: hidden; }
+  a { color: inherit; }
+  button { font: inherit; }
+  img { user-select: none; -webkit-user-drag: none; }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; border-radius: 6px; }
+  .wrap { width: min(1240px, 100% - 32px); margin-inline: auto; }
+
+  /* Film grain for a cinematic finish */
+  .grain {
+    position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 1s steps(4) infinite;
+  }
+  @keyframes grain { 0% { transform: translate(0,0); } 25% { transform: translate(-3%,2%); } 50% { transform: translate(2%,-3%); } 75% { transform: translate(-2%,-2%); } 100% { transform: translate(0,0); } }
+
+  /* ---------- Plain content sections ---------- */
+  .sec { position: relative; z-index: 10; padding: 140px 0; }
+
+  /* Quiz */
+  .quiz { display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center; }
+  .quiz-card { position: relative; padding: 40px; border-radius: 28px; background: rgba(10,15,34,.78); border: 1px solid var(--line); backdrop-filter: blur(14px); min-height: 420px; display: flex; flex-direction: column; justify-content: center; }
+  .quiz-steps { display: flex; gap: 8px; margin-bottom: 28px; }
+  .quiz-steps i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,.12); transition: background .4s; }
+  .quiz-steps i.on { background: var(--red); }
+  .quiz-q { font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 72%; font-size: clamp(30px, 3.4vw, 46px); text-transform: uppercase; line-height: 1; margin-bottom: 26px; }
+  .quiz-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .opt {
+    min-height: 64px; padding: 14px 18px; border-radius: 16px; text-align: left; display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,.05); border: 1px solid var(--line); color: var(--text); cursor: pointer; font: 600 15px/1.3 "Inter", sans-serif;
+    transition: background .2s, border-color .2s, transform .2s;
+  }
+  .opt:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.35); transform: translateY(-2px); }
+  .opt b { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.1); font-size: 12px; flex: none; }
+  .quiz-result { display: none; grid-template-columns: auto 1fr; gap: 30px; align-items: center; }
+  .quiz-card.done .quiz-result { display: grid; }
+  .quiz-card.done .quiz-body { display: none; }
+  .quiz-result img { height: 320px; width: auto; filter: drop-shadow(0 30px 30px rgba(0,0,0,.6)); }
+  .quiz-result .display { font-size: clamp(36px, 4vw, 58px); }
+  .qr-taste { color: var(--muted); font-size: 18px; margin: 12px 0 26px; }
+
+  /* History timeline */
+  .tl { position: relative; margin-top: 70px; }
+  .tl-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: rgba(255,255,255,.1); transform: translateX(-50%); }
+  .tl-line i { display: block; width: 100%; height: 100%; background: linear-gradient(var(--red), var(--yellow)); transform-origin: top; transform: scaleY(0); }
+  .tl-item { position: relative; width: 50%; padding: 0 60px 80px 0; text-align: right; }
+  .tl-item:nth-child(even) { margin-left: 50%; padding: 0 0 80px 60px; text-align: left; }
+  .tl-item::before { content: ""; position: absolute; top: 18px; right: -9px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg); border: 2px solid rgba(255,255,255,.3); transition: background .4s, border-color .4s, box-shadow .4s; }
+  .tl-item:nth-child(even)::before { right: auto; left: -9px; }
+  .tl-item.on::before { background: var(--red); border-color: var(--red); box-shadow: 0 0 0 7px rgba(219,10,64,.25); }
+  .tl-year { font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 72%; font-size: clamp(52px, 6vw, 92px); line-height: 1; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.45); transition: color .5s, -webkit-text-stroke-color .5s; }
+  .tl-item.on .tl-year { color: var(--text); -webkit-text-stroke-color: transparent; }
+  .tl-item p { color: var(--muted); font-size: 18px; max-width: 420px; margin-top: 10px; display: inline-block; }
+
+  /* Game */
+  .game-wrap { position: relative; margin-top: 44px; border-radius: 28px; overflow: hidden; border: 1px solid var(--line); background: radial-gradient(800px 420px at 50% 0%, rgba(47,85,212,.35), transparent 70%), #070b1a; }
+  #game { display: block; width: 100%; height: min(70vh, 560px); touch-action: none; }
+  .game-hud { position: absolute; top: 18px; left: 22px; right: 22px; display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; font: 700 11px/1 "Inter", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+  .game-hud b { display: block; margin-top: 8px; font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 72%; font-size: 40px; letter-spacing: 0; color: var(--text); font-variant-numeric: tabular-nums; }
+  .lives { display: flex; gap: 8px; padding-top: 4px; }
+  .lives i { width: 14px; height: 14px; border-radius: 50%; background: var(--red); box-shadow: 0 0 12px rgba(219,10,64,.7); transition: background .3s, box-shadow .3s; }
+  .lives i.lost { background: rgba(255,255,255,.15); box-shadow: none; }
+  .game-over { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; background: rgba(4,6,13,.55); backdrop-filter: blur(6px); transition: opacity .4s; }
+  .game-over.hide { opacity: 0; pointer-events: none; }
+  .game-over .display { font-size: clamp(44px, 6vw, 84px); }
+  .game-over p { color: var(--muted); margin: 14px 0 26px; font-size: 18px; }
+  .g-mult { display: inline-block; margin-left: 10px; padding: 5px 9px; border-radius: 999px; background: var(--yellow); color: #111; font: 800 13px/1 "Inter", sans-serif; vertical-align: middle; opacity: 0; transform: scale(.6); transition: opacity .25s, transform .3s var(--ease); }
+  .g-mult.on { opacity: 1; transform: scale(1); }
+  .g-board { list-style: none; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: -8px 0 26px; }
+  .g-board li { padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,.08); font: 700 13px/1 "Inter", sans-serif; font-variant-numeric: tabular-nums; }
+  .g-board li span { color: var(--muted); margin-right: 6px; }
+  .g-board li.me { background: var(--red); }
+  .g-board li.me span { color: #ffd2dc; }
+
+  /* Hero flavour dock */
+  .dock { display: flex; gap: 2px; margin-top: 36px; }
+  .dock button { flex: none; width: 34px; height: 72px; padding: 0; background: none; border: 0; cursor: pointer; opacity: .5; position: relative; transition: transform .35s var(--ease), opacity .25s; }
+  .dock button img { height: 64px; width: auto; display: block; margin: 0 auto; filter: drop-shadow(0 8px 10px rgba(0,0,0,.5)); pointer-events: none; }
+  .dock button:hover, .dock button:focus-visible { opacity: 1; transform: translateY(-6px); }
+  .dock button[aria-pressed="true"] { opacity: 1; transform: translateY(-10px) scale(1.1); }
+  .dock button[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; bottom: -12px; width: 5px; height: 5px; border-radius: 50%; background: var(--yellow); translate: -50% 0; }
+
+  .links a.active { color: var(--text); }
+  .links a.active::after { transform: scaleX(1); }
+  .to-top {
+    position: fixed; right: 16px; bottom: 16px; z-index: 35; width: 50px; height: 50px; padding: 0;
+    background: rgba(12,18,40,.82); backdrop-filter: blur(10px);
+    opacity: 0; pointer-events: none; transform: translateY(12px); transition: opacity .3s, transform .4s var(--ease), background .2s;
+  }
+  .to-top.show { opacity: 1; pointer-events: auto; transform: none; }
+  .skip-link { position: fixed; left: 16px; top: -70px; z-index: 110; padding: 12px 18px; border-radius: 999px; background: var(--yellow); color: #111; font-weight: 700; text-decoration: none; transition: top .2s; }
+  .skip-link:focus { top: 16px; }
+  .toast.no-icon svg { display: none; }
+
+  /* ---------- Background layers ---------- */
+  .evbg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .evbg img, .evbg video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.08); transition: opacity .7s var(--ease), transform 1.6s var(--ease); }
+  .evbg img.on { opacity: .7; transform: scale(1); }
+  .evbg video.on { opacity: .6; transform: scale(1); transition-duration: 1.2s, 2s; }
+  .evbg::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(4,6,13,.2), rgba(4,6,13,.85) 75%), linear-gradient(rgba(4,6,13,.4), rgba(4,6,13,.6)); }
+  .tint { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .8s, background .8s; background: radial-gradient(900px 700px at 50% 60%, color-mix(in srgb, var(--accent) 40%, transparent), transparent 70%); }
+  .tint.on { opacity: 1; }
+
+  /* ---------- Can rig ---------- */
+  .rig { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+  .cans { position: absolute; left: var(--cx); top: 53%; display: flex; align-items: flex-end; perspective: 1200px; }
+  .glow {
+    position: absolute; left: 50%; top: 45%; width: 120vh; height: 120vh; transform: translate(-50%, -50%); z-index: -1;
+    background: radial-gradient(circle, color-mix(in srgb, var(--hero, #4678ff) 40%, transparent) 0%, color-mix(in srgb, var(--hero, #2846c8) 13%, transparent) 35%, transparent 65%);
+  }
+  .can { display: block; width: auto; filter: drop-shadow(0 40px 50px rgba(0,0,0,.65)); -webkit-box-reflect: below 4px linear-gradient(transparent 78%, rgba(255,255,255,.16)); }
+  .can-c { height: min(72vh, 860px); position: relative; z-index: 2; transform-style: preserve-3d; pointer-events: auto; cursor: pointer; }
+  .can-l, .can-r { height: min(60vh, 720px); filter: drop-shadow(0 30px 40px rgba(0,0,0,.6)) brightness(.7); }
+  .can-l { margin-right: -5vh; }
+  .can-r { margin-left: -5vh; }
+  .open-hint {
+    position: absolute; left: 50%; top: -6vh; transform: translateX(-50%); z-index: 3; white-space: nowrap;
+    padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3);
+    backdrop-filter: blur(8px); font: 700 12px/1 "Inter", sans-serif; letter-spacing: .18em; text-transform: uppercase;
+    animation: bob 1.6s ease-in-out infinite; transition: opacity .4s;
+  }
+  .open-hint.gone, .open-hint.away, body.intro .open-hint { opacity: 0; }
+  @keyframes bob { 0%,100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+
+  #fog, #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #fog { z-index: 2; }
+  #fx { z-index: 45; }
+
+  .progress { position: fixed; left: 0; top: 0; height: 3px; width: 100%; background: var(--red); transform-origin: left; transform: scaleX(0); z-index: 40; }
+
+  /* ---------- Cursor (fine pointers only) ---------- */
+  .cursor { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .cursor {
+      display: grid; place-items: center; position: fixed; left: 0; top: 0; z-index: 95; pointer-events: none;
+      width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,.75); transition: width .3s var(--ease), height .3s var(--ease), margin .3s var(--ease), background .3s, border-color .3s;
+    }
+    .cursor span { font: 700 10px/1 "Inter", sans-serif; letter-spacing: .14em; text-transform: uppercase; opacity: 0; transition: opacity .2s; white-space: nowrap; }
+    .cursor.big { width: 96px; height: 96px; margin: -48px 0 0 -48px; background: var(--red); border-color: var(--red); }
+    .cursor.big span { opacity: 1; }
+    .cursor.link { width: 56px; height: 56px; margin: -28px 0 0 -28px; border-color: var(--yellow); }
+    body.intro .cursor, body.modal .cursor { opacity: 0; }
+  }
+
+  /* ---------- UI ---------- */
+  .ui { position: relative; z-index: 10; transition: opacity 1s var(--ease); }
+  body.intro .ui { opacity: 0; pointer-events: none; }
+
+  .display {
+    font-family: "Archivo", "Arial Black", sans-serif;
+    font-weight: 900; font-stretch: 72%;
+    text-transform: uppercase; line-height: .86; letter-spacing: -.01em;
+    text-shadow: 0 6px 40px rgba(0,0,0,.45);
+  }
+  .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-top: .14em; margin-top: -.14em; }
+  .w > span { display: inline-block; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 700 12px/1 "Inter", sans-serif; letter-spacing: .28em; text-transform: uppercase; color: var(--yellow); margin-bottom: 22px; }
+  .eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+
+  nav { position: fixed; inset: 0 0 auto 0; z-index: 30; transition: background .3s, transform .5s var(--ease); }
+  nav.solid { background: rgba(4,6,13,.72); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  nav.hide { transform: translateY(-100%); }
+  nav .wrap { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .wordmark { font-family: "Archivo", sans-serif; font-style: italic; font-weight: 900; font-size: 26px; color: var(--red); text-decoration: none; letter-spacing: -.02em; }
+  .links { display: flex; gap: 34px; list-style: none; }
+  .links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--muted); padding: 14px 0; transition: color .2s; position: relative; }
+  .links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 8px; height: 1px; background: var(--text); transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease); }
+  .links a:hover { color: var(--text); }
+  .links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .tools { display: flex; align-items: center; gap: 8px; }
+  .icon-btn {
+    min-width: 44px; height: 44px; padding: 0 12px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: rgba(255,255,255,.06); border: 1px solid var(--line); color: var(--text); cursor: pointer;
+    font: 700 12px/1 "Inter", sans-serif; letter-spacing: .12em; transition: background .2s, border-color .2s;
+  }
+  .icon-btn:hover { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.3); }
+  .icon-btn svg { width: 20px; height: 20px; }
+  .eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
+  .eq i { width: 3px; height: 100%; background: currentColor; border-radius: 1px; transform-origin: bottom; transform: scaleY(.25); }
+  #mute[aria-pressed="true"] .eq i { animation: eq .9s ease-in-out infinite; }
+  #mute[aria-pressed="true"] .eq i:nth-child(2) { animation-delay: -.3s; }
+  #mute[aria-pressed="true"] .eq i:nth-child(3) { animation-delay: -.6s; }
+  #mute[aria-pressed="true"] .eq i:nth-child(4) { animation-delay: -.45s; }
+  @keyframes eq { 0%,100% { transform: scaleY(.25); } 50% { transform: scaleY(1); } }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 52px; padding: 0 30px;
+    border-radius: 999px; border: 0; cursor: pointer; text-decoration: none;
+    font: 700 14px/1 "Inter", sans-serif; letter-spacing: .14em; text-transform: uppercase;
+    transition: background .25s, box-shadow .25s, border-color .25s;
+  }
+  .btn-red { background: var(--red); color: #fff; box-shadow: 0 12px 40px rgba(219,10,64,.4); }
+  .btn-red:hover { box-shadow: 0 18px 50px rgba(219,10,64,.6); }
+  .btn-line { background: rgba(255,255,255,.04); color: var(--text); border: 1px solid rgba(255,255,255,.28); backdrop-filter: blur(8px); }
+  .btn-line:hover { border-color: #fff; }
+  nav .btn { min-height: 44px; padding: 0 22px; font-size: 12px; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; z-index: 60; transform: translate(-50%, 140%);
+    display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px;
+    background: rgba(12,18,40,.85); border: 1px solid var(--line); backdrop-filter: blur(12px);
+    font-size: 14px; font-weight: 500; transition: transform .5s var(--ease); pointer-events: none;
+  }
+  .toast.show { transform: translate(-50%, 0); }
+  .toast svg { width: 18px; height: 18px; color: var(--yellow); }
+
+  /* Panels let clicks through to the can, except on their content */
+  .panel { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; pointer-events: none; }
+  .panel .copy, .panel .events, .panel .eyebrow { pointer-events: auto; }
+  .copy { max-width: 540px; }
+  .right .copy { margin-left: auto; }
+
+  .hero h1 { font-size: clamp(72px, 11.5vw, 176px); }
+  .hero h1 em { font-style: italic; color: var(--red); display: block; }
+  .lead { color: var(--muted); font-size: 19px; max-width: 440px; margin: 28px 0 38px; }
+  .ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .scroll-hint { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .scroll-hint::after { content: ""; width: 1px; height: 44px; background: linear-gradient(var(--muted), transparent); animation: hint 2s ease-in-out infinite; transform-origin: top; }
+  @keyframes hint { 0%,100% { transform: scaleY(.4); } 50% { transform: scaleY(1); } }
+
+  h2.display { font-size: clamp(52px, 7vw, 104px); }
+
+  .facts { list-style: none; margin-top: 40px; border-top: 1px solid var(--line); }
+  .facts li { display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .facts b { font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 72%; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .facts span { color: var(--muted); }
+  .facts strong { color: var(--text); font-weight: 600; display: block; }
+
+  /* Ticker */
+  .ticker { position: relative; z-index: 10; background: var(--red); padding: 16px 0; overflow: hidden; transform: rotate(-2deg); margin: 40px -2vw; box-shadow: 0 20px 60px rgba(219,10,64,.35); }
+  .ticker-track { display: flex; align-items: center; gap: 36px; width: max-content; animation: tick 34s linear infinite; }
+  .ticker span { font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 72%; font-size: clamp(30px, 4vw, 52px); text-transform: uppercase; line-height: 1; white-space: nowrap; }
+  .ticker svg { width: 26px; height: 26px; color: var(--yellow); flex: none; }
+  @keyframes tick { to { transform: translateX(-50%); } }
+
+  /* ---------- Flavour gallery ---------- */
+  #skoniai { position: relative; z-index: 10; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 110px 0 50px; overflow: hidden; }
+  .gal-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
+  .gal-head p { color: var(--muted); max-width: 320px; }
+  .track { display: flex; align-items: flex-end; gap: 22px; padding: 0 max(16px, calc((100vw - 1240px) / 2)); will-change: transform; }
+  .card {
+    flex: none; width: 250px; position: relative; text-align: center; cursor: pointer;
+    background: none; border: 0; color: inherit; padding: 30px 0 0;
+  }
+  .card .halo {
+    position: absolute; left: 50%; top: 42%; width: 280px; height: 280px; translate: -50% -50%; border-radius: 50%; z-index: -1;
+    background: radial-gradient(circle, var(--c) 0%, transparent 65%); opacity: .3; transition: opacity .5s, scale .6s var(--ease);
+  }
+  .card img { height: min(44vh, 440px); width: auto; display: block; margin: 0 auto 18px; filter: drop-shadow(0 30px 30px rgba(0,0,0,.55)); transition: transform .6s var(--ease); }
+  .card:hover img, .card:focus-visible img { transform: translateY(-16px) rotate(-5deg) scale(1.04); }
+  .card:hover .halo, .card:focus-visible .halo { opacity: .75; scale: 1.15; }
+  .card .num { display: block; font: 700 11px/1 "Inter", sans-serif; letter-spacing: .24em; color: var(--muted); margin-bottom: 8px; }
+  .card h3 { font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 72%; font-size: 26px; text-transform: uppercase; line-height: 1; }
+  .card .taste { display: block; color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .gal-bar { width: min(1240px, 100% - 32px); margin: 34px auto 0; height: 2px; background: rgba(255,255,255,.1); }
+  .gal-bar i { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: background .6s; }
+
+  /* ---------- Flavour detail dialog ---------- */
+  dialog#flavour { border: 0; padding: 0; background: transparent; color: var(--text); width: min(1100px, 100% - 32px); max-width: none; max-height: calc(100% - 32px); margin: auto; overflow: visible; }
+  dialog#flavour::backdrop { background: rgba(4,6,13,.84); backdrop-filter: blur(10px); }
+  .dlg {
+    --c: #2f55d4;
+    position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; padding: 48px 56px;
+    border-radius: 28px; border: 1px solid var(--line); overflow: hidden;
+    background: radial-gradient(560px 420px at 28% 55%, color-mix(in srgb, var(--c) 45%, transparent), transparent 70%), #0a0f22;
+    transition: background .6s;
+  }
+  .dlg-stage { position: relative; display: grid; place-items: center; }
+  .dlg-can { height: min(64vh, 560px); width: auto; filter: drop-shadow(0 40px 40px rgba(0,0,0,.6)); cursor: pointer; }
+  .dlg-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+  .dlg-info .display { font-size: clamp(44px, 5vw, 76px); }
+  .dlg-desc { color: var(--muted); font-size: 18px; margin: 22px 0 32px; max-width: 420px; }
+  .dlg-close { position: absolute; top: 18px; right: 18px; z-index: 6; }
+  .dlg-nav { display: flex; align-items: center; gap: 10px; margin-top: 34px; color: var(--muted); font-size: 13px; letter-spacing: .2em; }
+
+  .events-panel { flex-direction: column; justify-content: center; }
+  .events { list-style: none; width: 100%; text-align: center; }
+  .events a { display: inline-block; text-decoration: none; padding: 6px 12px; }
+  .events .display {
+    display: block; font-size: clamp(54px, 9vw, 140px); color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.6); text-shadow: none;
+    transition: color .35s var(--ease), -webkit-text-stroke-color .35s;
+  }
+  .events li.on .display { color: var(--text); -webkit-text-stroke-color: transparent; text-shadow: 0 8px 50px rgba(0,0,0,.6); }
+  .events small { display: block; font-size: 13px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); margin-top: -4px; transition: color .3s; }
+  .events li.on small { color: var(--yellow); }
+
+  .final h2 { font-size: clamp(60px, 9vw, 140px); }
+  .final h2 em { font-style: italic; color: var(--red); }
+
+  /* ---------- Recipes ---------- */
+  .rcp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 50px; }
+  .rcp {
+    --c: #2f55d4;
+    position: relative; display: flex; flex-direction: column; padding: 28px 24px 24px; border-radius: 24px; overflow: hidden;
+    background: radial-gradient(320px 240px at 50% 0%, color-mix(in srgb, var(--c) 38%, transparent), transparent 70%), rgba(10,15,34,.78);
+    border: 1px solid var(--line); backdrop-filter: blur(14px); transition: border-color .3s;
+  }
+  .rcp:hover { border-color: color-mix(in srgb, var(--c) 60%, transparent); }
+  .rcp img { height: 200px; width: auto; align-self: center; margin-bottom: 20px; filter: drop-shadow(0 24px 24px rgba(0,0,0,.55)); cursor: pointer; }
+  .rcp h3 { font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 72%; font-size: 30px; text-transform: uppercase; line-height: 1; }
+  .rcp-meta { display: block; margin: 8px 0 16px; font: 700 11px/1.4 "Inter", sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--yellow); }
+  .rcp ul { list-style: none; display: grid; gap: 6px; align-content: start; flex: 1; margin-bottom: 20px; color: var(--muted); font-size: 15px; }
+  .rcp li { display: flex; gap: 10px; }
+  .rcp li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 9px; border-radius: 50%; background: var(--c); }
+  .rcp .btn { min-height: 44px; padding: 0 20px; font-size: 12px; align-self: flex-start; }
+
+  /* ---------- Mobile menu ---------- */
+  .menu-btn { display: none; }
+  .menu-btn .x, .menu-btn[aria-expanded="true"] .bars { display: none; }
+  .menu-btn[aria-expanded="true"] .x { display: block; }
+  .mmenu {
+    position: fixed; inset: 0; z-index: 29; display: flex; flex-direction: column; justify-content: center; padding: 90px 24px 40px;
+    background: rgba(4,6,13,.96); backdrop-filter: blur(16px);
+    opacity: 0; visibility: hidden; transition: opacity .35s var(--ease), visibility .35s;
+  }
+  .mmenu.open { opacity: 1; visibility: visible; }
+  .mmenu ul { list-style: none; }
+  .mmenu a:not(.btn) { display: block; padding: 4px 0; text-decoration: none; font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 72%; font-size: clamp(40px, 11vw, 64px); text-transform: uppercase; line-height: 1.05; }
+  .mmenu a:not(.btn):active { color: var(--red); }
+  .mmenu .btn { margin-top: 30px; align-self: flex-start; }
+  @media (min-width: 900px) { .mmenu { display: none; } }
+
+  footer { position: relative; z-index: 10; padding: 70px 0 30px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; background: rgba(4,6,13,.92); }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; padding-bottom: 50px; }
+  .foot-grid p { max-width: 360px; margin-top: 14px; }
+  .foot-grid h4 { font: 700 12px/1 "Inter", sans-serif; letter-spacing: .24em; text-transform: uppercase; color: var(--text); margin-bottom: 18px; }
+  .foot-grid ul { list-style: none; display: grid; gap: 4px; }
+  .foot-grid ul a { text-decoration: none; display: inline-block; padding: 6px 0; transition: color .2s; }
+  .foot-grid ul a:hover { color: var(--text); }
+  .foot-legal { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 12px; color: #6b7591; }
+
+  /* ---------- Intro ---------- */
+  #intro { position: fixed; inset: 0; z-index: 50; pointer-events: none; overflow: hidden; }
+  body:not(.intro) #intro { display: none; }
+  .fly { position: absolute; left: 50%; top: 50%; height: 118vh; width: auto; filter: drop-shadow(0 60px 80px rgba(0,0,0,.7)); visibility: hidden; }
+  .streak {
+    position: absolute; left: 0; top: 50%; width: 100%; height: 40vh; transform-origin: left center; opacity: 0;
+    background: linear-gradient(90deg, transparent, rgba(40,80,220,.9) 25%, rgba(219,10,64,.85) 60%, rgba(255,199,44,.7) 85%, transparent);
+    filter: blur(40px);
+  }
+  .flash { position: absolute; inset: 0; opacity: 0; background: radial-gradient(circle at 50% 50%, #fff 0%, rgba(210,232,255,.92) 30%, rgba(160,200,255,0) 72%); }
+  .skip {
+    position: absolute; right: 16px; bottom: 16px; pointer-events: auto; min-height: 44px; padding: 0 18px; border-radius: 999px;
+    background: rgba(255,255,255,.08); color: var(--text); border: 1px solid rgba(255,255,255,.22); font: 600 13px "Inter", sans-serif; cursor: pointer;
+  }
+  .skip:hover { background: rgba(255,255,255,.16); }
+
+  @media (min-width: 900px) and (max-width: 1366px) {
+    :root { --cx: 73%; }
+    .hero h1 { font-size: clamp(64px, 9vw, 124px); }
+    .can-c { height: 62vh; }
+    .can-l, .can-r { height: 51vh; }
+    .copy { max-width: 470px; }
+  }
+  @media (max-width: 899px) {
+    :root { --cx: 50%; }
+    .cans { top: 36%; }
+    .can-c { height: 46vh; }
+    .can-l, .can-r { height: 38vh; }
+    .links { display: none; }
+    nav .btn { display: none; }
+    .menu-btn { display: inline-flex; }
+    .grain { animation: none; }
+    .rcp img { height: 160px; }
+    .panel { align-items: flex-end; padding: 0 0 56px; }
+    .hero { padding-top: 66vh; }
+    .copy, .right .copy { max-width: none; margin: 0; padding: 22px; border-radius: 20px; background: rgba(4,6,13,.66); backdrop-filter: blur(10px); border: 1px solid var(--line); }
+    .hero .copy { background: none; border: 0; backdrop-filter: none; padding: 0; }
+    .scroll-hint { display: none; }
+    .facts li { grid-template-columns: 110px 1fr; }
+    .facts b { font-size: 32px; }
+    .events-panel { padding-top: 30vh; }
+    #skoniai { padding-top: 90px; }
+    .gal-head { flex-direction: column; align-items: flex-start; }
+    .track { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; scrollbar-width: none; }
+    .track::-webkit-scrollbar { display: none; }
+    .card { width: 58vw; scroll-snap-align: center; }
+    .card img { height: 42vh; }
+    .gal-bar { display: none; }
+    .dlg { grid-template-columns: 1fr; padding: 56px 22px 26px; gap: 10px; text-align: center; }
+    .dlg-can { height: 38vh; }
+    .dlg-desc { margin-inline: auto; }
+    .dlg .ctas, .dlg-nav { justify-content: center; }
+    .sec { padding: 100px 0; }
+    .dock { overflow-x: auto; margin: 22px -16px 0; padding: 14px 16px 16px; scrollbar-width: none; }
+    .dock::-webkit-scrollbar { display: none; }
+    .quiz { grid-template-columns: 1fr; gap: 30px; }
+    .quiz-card { padding: 26px 20px; min-height: 0; }
+    .quiz-opts { grid-template-columns: 1fr; }
+    .quiz-result { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .quiz-result img { height: 240px; }
+    .quiz-result .ctas { justify-content: center; }
+    .tl-line { left: 9px; }
+    .tl-item, .tl-item:nth-child(even) { width: 100%; margin-left: 0; padding: 0 0 56px 44px; text-align: left; }
+    .tl-item::before, .tl-item:nth-child(even)::before { left: 0; right: auto; }
+    #game { height: 62vh; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-grid > :first-child { grid-column: 1 / -1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body class="intro">
+<a class="skip-link" href="#story" data-i18n="skipLink">Pereiti prie turinio</a>
+
+<div class="evbg" aria-hidden="true">
+  <video class="evvideo" src="video/teaser.mp4" muted loop playsinline preload="none"></video>
+  <img data-src="img/f1.jpg" alt="" data-ev="0">
+  <img data-src="img/cliff.jpg" alt="" data-ev="1">
+  <img data-src="img/stratos.jpg" alt="" data-ev="2">
+  <img data-src="img/rampage.jpg" alt="" data-ev="3">
+</div>
+<div class="tint" aria-hidden="true"></div>
+
+<div class="rig">
+  <div class="cans">
+    <div class="glow" aria-hidden="true"></div>
+    <img class="can can-l" src="img/cans/red.webp" alt="" aria-hidden="true">
+    <img class="can can-c" src="img/cans/original.webp" alt="Red Bull skardinė – spausk, kad atidarytum" role="button" tabindex="0" data-i18n-alt="canAlt" data-cursor="cursorOpen">
+    <img class="can can-r" src="img/cans/blue.webp" alt="" aria-hidden="true">
+    <div class="open-hint" aria-hidden="true" data-i18n="openHint">Spausk skardinę</div>
+  </div>
+</div>
+<canvas id="fog" aria-hidden="true"></canvas>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="progress" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span></span></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="toast" role="status">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+  <span class="toast-text"></span>
+</div>
+
+<div id="intro">
+  <div class="streak"></div>
+  <img class="fly" src="img/cans/original.webp" alt="">
+  <div class="flash"></div>
+  <button class="skip" type="button" data-i18n="skip">Praleisti intro</button>
+</div>
+
+<div class="ui">
+  <nav aria-label="Pagrindinė navigacija">
+    <div class="wrap">
+      <a href="#top" class="wordmark">Red Bull</a>
+      <ul class="links">
+        <li><a href="#skoniai" data-i18n="nav2">Skoniai</a></li>
+        <li><a href="#testas" data-i18n="nav4">Testas</a></li>
+        <li><a href="#receptai" data-i18n="nav7">Receptai</a></li>
+        <li><a href="#ribos" data-i18n="nav3">Be ribų</a></li>
+        <li><a href="#istorija" data-i18n="nav5">Istorija</a></li>
+        <li><a href="#zaidimas" data-i18n="nav6">Žaidimas</a></li>
+      </ul>
+      <div class="tools">
+        <button class="icon-btn" type="button" id="mute" aria-pressed="false" aria-label="Garsas">
+          <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        </button>
+        <button class="icon-btn" type="button" data-lang-toggle>EN</button>
+        <a href="#pirk" class="btn btn-red" data-i18n="buy">Pirkti</a>
+        <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="mmenu" aria-label="Meniu">
+          <svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mmenu" id="mmenu">
+    <ul>
+      <li><a href="#sudetis" data-i18n="nav1">Sudėtis</a></li>
+      <li><a href="#skoniai" data-i18n="nav2">Skoniai</a></li>
+      <li><a href="#testas" data-i18n="nav4">Testas</a></li>
+      <li><a href="#receptai" data-i18n="nav7">Receptai</a></li>
+      <li><a href="#ribos" data-i18n="nav3">Be ribų</a></li>
+      <li><a href="#istorija" data-i18n="nav5">Istorija</a></li>
+      <li><a href="#zaidimas" data-i18n="nav6">Žaidimas</a></li>
+    </ul>
+    <a href="#pirk" class="btn btn-red" data-i18n="buy">Pirkti</a>
+  </div>
+
+  <main id="story">
+    <section class="panel hero" id="top">
+      <div class="wrap">
+        <div class="copy">
+          <span class="eyebrow" data-i18n="heroEyebrow">Ledinis · 250 ml</span>
+          <h1 class="display reveal" data-i18n="heroTitle">Suteikia<em>sparnus.</em></h1>
+          <p class="lead" data-i18n="heroLead">Šalta skardinė, ledo garai ir ta pati energija, kurią pasaulis pažįsta nuo 1987-ųjų.</p>
+          <div class="ctas">
+            <button class="btn btn-red magnet" type="button" id="open-btn">
+              <span data-i18n="heroCta">Atidaryk</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <a href="#skoniai" class="btn btn-line magnet" data-i18n="heroCta2">Visi 12 skonių</a>
+          </div>
+          <div class="dock" role="group" aria-label="Pasirink skonį"></div>
+        </div>
+      </div>
+      <div class="scroll-hint" data-i18n="scroll">Slink</div>
+    </section>
+
+    <section class="panel right" id="sudetis">
+      <div class="wrap">
+        <div class="copy">
+          <span class="eyebrow" data-i18n="inEyebrow">Kas viduje</span>
+          <h2 class="display reveal" data-i18n="inTitle">Formulė, kuri veikia.</h2>
+          <ul class="facts">
+            <li><b data-count="80" data-suffix=" mg">80 mg</b><span><strong data-i18n="f1s">Kofeinas</strong><span data-i18n="f1t">Tiek pat, kiek puodelyje kavos.</span></span></li>
+            <li><b data-count="1000" data-suffix=" mg">1000 mg</b><span><strong data-i18n="f2s">Taurinas</strong><span data-i18n="f2t">Natūraliai randamas žmogaus organizme.</span></span></li>
+            <li><b>B3 · B6 · B12</b><span><strong data-i18n="f3s">B grupės vitaminai</strong><span data-i18n="f3t">Prisideda prie energijos apykaitos.</span></span></li>
+            <li><b data-count="12">12</b><span><strong data-i18n="f4s">Skonių Lietuvoje</strong><span data-i18n="f4t">Nuo klasikos iki sezoninių leidimų.</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track"></div>
+    </div>
+
+    <section id="skoniai" aria-labelledby="gal-title">
+      <div class="wrap gal-head">
+        <div>
+          <span class="eyebrow" data-i18n="galEyebrow">12 skonių</span>
+          <h2 class="display reveal" id="gal-title" data-i18n="galTitle">Rask savo skonį.</h2>
+        </div>
+        <p data-i18n="galHint">Slink toliau, o paspaudęs skardinę pamatysi daugiau.</p>
+      </div>
+      <div class="track" role="list"></div>
+      <div class="gal-bar" aria-hidden="true"><i></i></div>
+    </section>
+
+    <section class="sec" id="testas">
+      <div class="wrap quiz">
+        <div>
+          <span class="eyebrow" data-i18n="qEyebrow">Testas</span>
+          <h2 class="display reveal" data-i18n="qTitle">Koks tavo skonis?</h2>
+          <p class="lead" data-i18n="qLead">Trys klausimai – ir žinosi, kurią skardinę atsidaryti.</p>
+        </div>
+        <div class="quiz-card" aria-live="polite">
+          <div class="quiz-body">
+            <div class="quiz-steps" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="quiz-q"></div>
+            <div class="quiz-opts"></div>
+          </div>
+          <div class="quiz-result">
+            <img src="img/cans/original.webp" alt="">
+            <div>
+              <span class="eyebrow" data-i18n="qResult">Tavo skonis</span>
+              <h3 class="display qr-name"></h3>
+              <p class="qr-taste"></p>
+              <div class="ctas">
+                <button class="btn btn-red qr-more" type="button" data-i18n="qMore">Plačiau</button>
+                <button class="btn btn-line qr-share" type="button" data-i18n="qShare">Pasidalinti</button>
+                <button class="btn btn-line qr-again" type="button" data-i18n="qAgain">Iš naujo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="receptai">
+      <div class="wrap">
+        <span class="eyebrow" data-i18n="rEyebrow">Receptai</span>
+        <h2 class="display reveal" data-i18n="rTitle">Sumaišyk savo.</h2>
+        <p class="lead" data-i18n="rLead">Keturi gaivūs nealkoholiniai mišiniai, kuriuos pasidarysi per kelias minutes.</p>
+        <div class="rcp-grid"></div>
+      </div>
+    </section>
+
+    <section class="panel events-panel" id="ribos">
+      <div class="wrap">
+        <span class="eyebrow" style="display:flex;justify-content:center" data-i18n="evEyebrow">Be ribų</span>
+        <ul class="events">
+          <li data-ev="0"><a href="https://www.redbull.com/int-en/teams/red-bull-racing" target="_blank" rel="noopener" data-cursor="cursorSee"><span class="display" data-i18n="ev1">Formulė 1</span><small data-i18n="ev1s">Greitis be kompromisų</small></a></li>
+          <li data-ev="1"><a href="https://www.redbull.com/int-en/event-series/red-bull-cliff-diving" target="_blank" rel="noopener" data-cursor="cursorSee"><span class="display">Cliff Diving</span><small data-i18n="ev2s">27 metrai iki vandens</small></a></li>
+          <li data-ev="2"><a href="https://www.redbull.com/int-en/projects/red-bull-stratos" target="_blank" rel="noopener" data-cursor="cursorSee"><span class="display">Stratos</span><small data-i18n="ev3s">Šuolis iš 39 km aukščio</small></a></li>
+          <li data-ev="3"><a href="https://www.redbull.com/int-en/events/red-bull-rampage" target="_blank" rel="noopener" data-cursor="cursorSee"><span class="display">Rampage</span><small data-i18n="ev4s">Kalnų dviračiai ant skardžių</small></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="sec" id="istorija">
+      <div class="wrap">
+        <span class="eyebrow" data-i18n="hEyebrow">Istorija</span>
+        <h2 class="display reveal" data-i18n="hTitle">Nuo 1987-ųjų be ribų.</h2>
+        <div class="tl">
+          <div class="tl-line" aria-hidden="true"><i></i></div>
+          <div class="tl-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="zaidimas">
+      <div class="wrap">
+        <span class="eyebrow" data-i18n="gEyebrow">Žaidimas</span>
+        <h2 class="display reveal" data-i18n="gTitle">Pagauk skardinę.</h2>
+        <p class="lead" data-i18n="gLead">Gaudyk krentančias skardines pele, pirštu arba rodyklėmis. Auksinė – 3 taškai, snaigė sulėtina laiką, sparnai praplatina lentą, širdelė grąžina gyvybę. Praleisi tris – pabaiga.</p>
+        <div class="game-wrap">
+          <canvas id="game" role="img" aria-label="Žaidimas: pagauk krentančias Red Bull skardines"></canvas>
+          <div class="game-hud" aria-live="polite">
+            <span><span data-i18n="gScore">Taškai</span><b><span class="g-score">0</span><em class="g-mult">x2</em></b></span>
+            <span class="lives" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span style="text-align:right"><span data-i18n="gBest">Rekordas</span><b class="g-best">0</b></span>
+          </div>
+          <div class="game-over">
+            <div>
+              <h3 class="display g-msg"></h3>
+              <p class="g-sub"></p>
+              <ol class="g-board" aria-label="Geriausi rezultatai"></ol>
+              <button class="btn btn-red g-start magnet" type="button" data-i18n="gStart">Pradėti</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel final" id="pirk">
+      <div class="wrap">
+        <div class="copy">
+          <span class="eyebrow" data-i18n="finEyebrow">Tavo eilė</span>
+          <h2 class="display reveal" data-i18n="finTitle">Atšaldyk.<br>Atidaryk.<br><em>Skrisk.</em></h2>
+          <p class="lead" data-i18n="finLead">Rask Red Bull artimiausioje parduotuvėje.</p>
+          <a href="https://www.google.com/maps/search/Red+Bull/" target="_blank" rel="noopener" class="btn btn-red magnet">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <span data-i18n="finBtn">Rasti parduotuvę</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="icon-btn to-top" type="button" aria-label="Į viršų">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </button>
+
+  <footer>
+    <div class="wrap foot-grid">
+      <div>
+        <a href="#top" class="wordmark">Red Bull</a>
+        <p data-i18n="footAbout">Ledinė energija ir pasaulis be ribų – nuo Formulės 1 iki stratosferos.</p>
+      </div>
+      <div>
+        <h4 data-i18n="footNav">Puslapis</h4>
+        <ul>
+          <li><a href="#sudetis" data-i18n="nav1">Sudėtis</a></li>
+          <li><a href="#skoniai" data-i18n="nav2">Skoniai</a></li>
+          <li><a href="#testas" data-i18n="nav4">Testas</a></li>
+          <li><a href="#receptai" data-i18n="nav7">Receptai</a></li>
+          <li><a href="#ribos" data-i18n="nav3">Be ribų</a></li>
+          <li><a href="#istorija" data-i18n="nav5">Istorija</a></li>
+          <li><a href="#zaidimas" data-i18n="nav6">Žaidimas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="footFollow">Sek Red Bull</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/redbull/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.youtube.com/redbull" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.tiktok.com/@redbull" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://www.redbull.com/lt-lt/energydrink" target="_blank" rel="noopener">redbull.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap foot-legal">
+      <span data-i18n="foot1">Neoficiali reklamos koncepcija, sukurta mokymosi tikslais.</span>
+      <span data-i18n="foot2">Red Bull, produktų ir renginių nuotraukos bei vaizdo įrašas priklauso Red Bull GmbH.</span>
+    </div>
+  </footer>
+</div>
+
+<dialog id="flavour" aria-labelledby="dlg-name">
+  <div class="dlg">
+    <button class="icon-btn dlg-close" type="button" aria-label="Uždaryti">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <canvas class="dlg-fx" aria-hidden="true"></canvas>
+    <div class="dlg-stage">
+      <img class="dlg-can" src="img/cans/original.webp" alt="">
+    </div>
+    <div class="dlg-info">
+      <span class="eyebrow dlg-taste"></span>
+      <h3 class="display" id="dlg-name"></h3>
+      <p class="dlg-desc"></p>
+      <div class="ctas">
+        <button class="btn btn-red dlg-open" type="button" data-i18n="heroCta">Atidaryk</button>
+        <a class="btn btn-line dlg-more" target="_blank" rel="noopener" data-i18n="more">redbull.com</a>
+      </div>
+      <div class="dlg-nav">
+        <button class="icon-btn dlg-prev" type="button" aria-label="Ankstesnis">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <span class="dlg-count">01 / 12</span>
+        <button class="icon-btn dlg-next" type="button" aria-label="Kitas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+// ================= Flavours (names and descriptions from redbull.com/lt-lt) =================
+const FLAVOURS = [
+  { id: 'original',  name: 'Red Bull Energy Drink', c: '#2f55d4', slug: 'red-bull-energy-drink',
+    lt: ['Originalus', 'Originalus Red Bull Energy Drink. Atgaivina kūną ir mintis.'],
+    en: ['The original', 'The original Red Bull Energy Drink. Vitalizes body and mind.'] },
+  { id: 'sugarfree', name: 'Red Bull Sugarfree', c: '#5b9be0', slug: 'red-bull-sugarfree',
+    lt: ['Be cukraus', 'Tie patys originalaus Red Bull Energy Drink privalumai – be cukraus.'],
+    en: ['No sugar', 'All the benefits of the original Red Bull Energy Drink – without sugar.'] },
+  { id: 'zero',      name: 'Red Bull Zero', c: '#9aa3b5', slug: 'red-bull-zero',
+    lt: ['Nulis kalorijų', 'Nulis kalorijų, 100 % sparnų.'],
+    en: ['Zero calories', 'Zero calories, 100% wings.'] },
+  { id: 'red',       name: 'The Red Edition', c: '#d0102e', slug: 'red-bull-red-edition',
+    lt: ['Arbūzai', 'Arbūzų skonio sparnai, pagaminti iš aukštos kokybės ingredientų.'],
+    en: ['Watermelon', 'Wings with a watermelon taste, made with high-quality ingredients.'] },
+  { id: 'blue',      name: 'The Blue Edition', c: '#2a7de1', slug: 'red-bull-blue-edition',
+    lt: ['Mėlynės', 'Mėlynių skonio sparnai, pagaminti iš aukštos kokybės ingredientų.'],
+    en: ['Blueberry', 'Wings with a blueberry taste, made with high-quality ingredients.'] },
+  { id: 'white',     name: 'The White Edition', c: '#d9d4c7', slug: 'red-bull-white-edition',
+    lt: ['Kokosai ir uogos', 'Sparnai su kokosų ir uogų skoniu.'],
+    en: ['Coconut & berry', 'Wings with a coconut and berry taste.'] },
+  { id: 'yellow',    name: 'The Yellow Edition', c: '#f2d02c', slug: 'red-bull-yellow-edition',
+    lt: ['Sudačiai ir laimai', 'Sparnai su gaiviu sudačio ir laimo skoniu.'],
+    en: ['Sudachi lime', 'Wings with a fresh sudachi and lime taste.'] },
+  { id: 'apricot',   name: 'The Apricot Edition', c: '#f08a3c', slug: 'red-bull-apricot-edition',
+    lt: ['Abrikosai ir braškės', 'Abrikosų ir braškių skonio sparnai.'],
+    en: ['Apricot & strawberry', 'Wings with an apricot and strawberry taste.'] },
+  { id: 'pink',      name: 'The Pink Edition', c: '#e8679a', slug: 'red-bull-pink-edition',
+    lt: ['Miško uogos', 'Miško uogų skonio sparnai.'],
+    en: ['Forest berries', 'Wings with a forest berry taste.'] },
+  { id: 'peach',     name: 'The Peach Edition', c: '#f3a98f', slug: 'red-bul-peach-edition',
+    lt: ['Baltieji persikai', 'Baltojo persiko skonis, citrusų žievelių gaiva ir švelnios gėlių natos.'],
+    en: ['White peach', 'White peach, a fresh hint of citrus peel and soft floral notes.'] },
+  { id: 'ice',       name: 'The Ice Edition', c: '#6fb7e8', slug: 'red-bull-ice-edition',
+    lt: ['Mėlynės, vanilė, eukaliptas', 'Mėlynės, vanilė ir gaiviai šaldančios eukalipto natos.'],
+    en: ['Blueberry, vanilla, eucalyptus', 'Blueberry, vanilla and cooling notes of eucalyptus.'] },
+  { id: 'winter',    name: 'The Winter Edition', c: '#8fb26a', slug: 'red-bull-winter-edition',
+    lt: ['Pistacijos ir uogos', 'Sparnai su sodriu pistacijų ir uogų skoniu.'],
+    en: ['Pistachio & berry', 'Wings with a rich pistachio and berry taste.'] },
+];
+
+// ================= Texts (LT / EN) =================
+const I18N = {
+  lt: {
+    nav1: 'Sudėtis', nav2: 'Skoniai', nav3: 'Be ribų', buy: 'Pirkti', skip: 'Praleisti intro',
+    heroEyebrow: 'Ledinis · 250 ml', heroTitle: 'Suteikia<em>sparnus.</em>',
+    heroLead: 'Šalta skardinė, ledo garai ir ta pati energija, kurią pasaulis pažįsta nuo 1987-ųjų.',
+    heroCta: 'Atidaryk', heroCta2: 'Visi 12 skonių', scroll: 'Slink', openHint: 'Spausk skardinę', canAlt: 'Red Bull skardinė – spausk, kad atidarytum',
+    inEyebrow: 'Kas viduje', inTitle: 'Formulė, kuri veikia.',
+    f1s: 'Kofeinas', f1t: 'Tiek pat, kiek puodelyje kavos.',
+    f2s: 'Taurinas', f2t: 'Natūraliai randamas žmogaus organizme.',
+    f3s: 'B grupės vitaminai', f3t: 'Prisideda prie energijos apykaitos.',
+    f4s: 'Skonių Lietuvoje', f4t: 'Nuo klasikos iki sezoninių leidimų.',
+    ticker: 'Suteikia sparnus',
+    galEyebrow: '12 skonių', galTitle: 'Rask savo skonį.', galHint: 'Slink toliau, o paspaudęs skardinę pamatysi daugiau.',
+    more: 'Daugiau redbull.com',
+    evEyebrow: 'Be ribų', ev1: 'Formulė 1', ev1s: 'Greitis be kompromisų', ev2s: '27 metrai iki vandens', ev3s: 'Šuolis iš 39 km aukščio', ev4s: 'Kalnų dviračiai ant skardžių',
+    finEyebrow: 'Tavo eilė', finTitle: 'Atšaldyk.<br>Atidaryk.<br><em>Skrisk.</em>', finLead: 'Rask Red Bull artimiausioje parduotuvėje.', finBtn: 'Rasti parduotuvę',
+    footAbout: 'Ledinė energija ir pasaulis be ribų – nuo Formulės 1 iki stratosferos.', footNav: 'Puslapis', footFollow: 'Sek Red Bull',
+    foot1: 'Neoficiali reklamos koncepcija, sukurta mokymosi tikslais.', foot2: 'Red Bull, produktų ir renginių nuotraukos bei vaizdo įrašas priklauso Red Bull GmbH.',
+    soundOn: 'Garsas įjungtas', soundHint: 'Spausk bet kur – įsijungs garsas', soundOff: 'Garsas išjungtas', sound: 'Garsas',
+    cursorOpen: 'Atidaryk', cursorSee: 'Žiūrėti', close: 'Uždaryti', prev: 'Ankstesnis', next: 'Kitas',
+    nav4: 'Testas', nav5: 'Istorija', nav6: 'Žaidimas',
+    qEyebrow: 'Testas', qTitle: 'Koks tavo skonis?', qLead: 'Trys klausimai – ir žinosi, kurią skardinę atsidaryti.',
+    qResult: 'Tavo skonis', qMore: 'Plačiau', qAgain: 'Iš naujo',
+    hEyebrow: 'Istorija', hTitle: 'Nuo 1987-ųjų be ribų.',
+    gEyebrow: 'Žaidimas', gTitle: 'Pagauk skardinę.',
+    gLead: 'Gaudyk krentančias skardines pele, pirštu arba rodyklėmis. Auksinė – 3 taškai, snaigė sulėtina laiką, sparnai praplatina lentą, širdelė grąžina gyvybę. Praleisi tris – pabaiga.',
+    gLevel: 'Lygis', gWings: 'SPARNAI!', gLife: '+1 GYVYBĖ',
+    nav7: 'Receptai', rEyebrow: 'Receptai', rTitle: 'Sumaišyk savo.', rLead: 'Keturi gaivūs nealkoholiniai mišiniai, kuriuos pasidarysi per kelias minutes.',
+    rMix: 'Maišyti', rEnjoy: 'Skanaus!', menu: 'Meniu',
+    gScore: 'Taškai', gBest: 'Rekordas', gStart: 'Pradėti', gReady: 'Pasiruošęs?', gReadySub: 'Pagauk kuo daugiau skardinių.',
+    gOver: 'Žaidimas baigtas', gYour: 'Tavo taškai:', gRecord: 'Naujas rekordas!', gAgain: 'Žaisti dar', gPaused: 'Pauzė', gResume: 'Tęsti',
+    gSlow: 'LĖTAI!', gBoard: 'Geriausi rezultatai', dockLabel: 'Pasirink skonį', cursorPick: 'Rinktis',
+    qShare: 'Pasidalinti', qShareText: 'Mano Red Bull skonis – {x}. O koks tavo?', copied: 'Nukopijuota – įklijuok draugams',
+    toTop: 'Į viršų', skipLink: 'Pereiti prie turinio',
+  },
+  en: {
+    nav1: 'Ingredients', nav2: 'Flavours', nav3: 'No limits', buy: 'Buy', skip: 'Skip intro',
+    heroEyebrow: 'Ice-cold · 250 ml', heroTitle: 'Gives you<em>wings.</em>',
+    heroLead: 'A frozen can, icy mist and the same energy the world has known since 1987.',
+    heroCta: 'Crack it open', heroCta2: 'All 12 flavours', scroll: 'Scroll', openHint: 'Tap the can', canAlt: 'Red Bull can – tap to open',
+    inEyebrow: 'What’s inside', inTitle: 'A formula that works.',
+    f1s: 'Caffeine', f1t: 'About the same as a cup of coffee.',
+    f2s: 'Taurine', f2t: 'Naturally found in the human body.',
+    f3s: 'B-group vitamins', f3t: 'Contribute to energy-yielding metabolism.',
+    f4s: 'Flavours in Lithuania', f4t: 'From the classic to seasonal editions.',
+    ticker: 'Gives you wings',
+    galEyebrow: '12 flavours', galTitle: 'Find your flavour.', galHint: 'Keep scrolling, and tap a can to see more.',
+    more: 'More on redbull.com',
+    evEyebrow: 'No limits', ev1: 'Formula 1', ev1s: 'Speed without compromise', ev2s: '27 metres to the water', ev3s: 'A jump from 39 km up', ev4s: 'Mountain bikes on sheer cliffs',
+    finEyebrow: 'Your turn', finTitle: 'Chill it.<br>Crack it.<br><em>Fly.</em>', finLead: 'Find Red Bull at a store near you.', finBtn: 'Find a store',
+    footAbout: 'Ice-cold energy and a world without limits – from Formula 1 to the stratosphere.', footNav: 'Page', footFollow: 'Follow Red Bull',
+    foot1: 'Unofficial ad concept, made for learning.', foot2: 'Red Bull, product and event photos and the video belong to Red Bull GmbH.',
+    soundOn: 'Sound on', soundHint: 'Tap anywhere to turn on sound', soundOff: 'Sound off', sound: 'Sound',
+    cursorOpen: 'Open', cursorSee: 'View', close: 'Close', prev: 'Previous', next: 'Next',
+    nav4: 'Quiz', nav5: 'History', nav6: 'Game',
+    qEyebrow: 'Quiz', qTitle: 'What’s your flavour?', qLead: 'Three questions and you’ll know which can to crack open.',
+    qResult: 'Your flavour', qMore: 'Details', qAgain: 'Start over',
+    hEyebrow: 'History', hTitle: 'No limits since 1987.',
+    gEyebrow: 'Game', gTitle: 'Catch the can.',
+    gLead: 'Catch the falling cans with your mouse, finger or arrow keys. A golden can is worth 3, a snowflake slows time, wings widen your bar and a heart gives a life back. Miss three and it’s over.',
+    gLevel: 'Level', gWings: 'WINGS!', gLife: '+1 LIFE',
+    nav7: 'Recipes', rEyebrow: 'Recipes', rTitle: 'Mix your own.', rLead: 'Four fresh alcohol-free mixes you can make in a few minutes.',
+    rMix: 'Mix it', rEnjoy: 'Enjoy!', menu: 'Menu',
+    gScore: 'Score', gBest: 'Best', gStart: 'Start', gReady: 'Ready?', gReadySub: 'Catch as many cans as you can.',
+    gOver: 'Game over', gYour: 'Your score:', gRecord: 'New record!', gAgain: 'Play again', gPaused: 'Paused', gResume: 'Resume',
+    gSlow: 'SLOW-MO!', gBoard: 'Best scores', dockLabel: 'Pick a flavour', cursorPick: 'Pick',
+    qShare: 'Share', qShareText: 'My Red Bull flavour is {x}. What’s yours?', copied: 'Copied – paste it to your friends',
+    toTop: 'Back to top', skipLink: 'Skip to content',
+  },
+};
+
+const QUIZ = {
+  lt: [
+    { q: 'Kada tau labiausiai reikia sparnų?', o: ['Ryte, prieš darbus', 'Sportuojant', 'Vakarėlyje', 'Mokantis'] },
+    { q: 'Kokie skoniai tau patinka?', o: ['Klasikiniai', 'Vaisių', 'Uogų', 'Egzotiški'] },
+    { q: 'O cukrus?', o: ['Taip, prašau', 'Be cukraus'] },
+  ],
+  en: [
+    { q: 'When do you need wings the most?', o: ['In the morning', 'Working out', 'At a party', 'Studying'] },
+    { q: 'Which tastes do you like?', o: ['Classic', 'Fruity', 'Berry', 'Exotic'] },
+    { q: 'And sugar?', o: ['Yes, please', 'No sugar'] },
+  ],
+};
+
+// Milestones (Red Bull, Red Bull Racing, Stratos, Cliff Diving, Rampage)
+const HISTORY = [
+  ['1987', 'Red Bull Energy Drink pirmą kartą pasirodo Austrijoje.', 'Red Bull Energy Drink launches in Austria.'],
+  ['2001', 'Jutos dykumoje surengiamas pirmasis Red Bull Rampage.', 'The first Red Bull Rampage takes place in the Utah desert.'],
+  ['2005', 'Red Bull Racing debiutuoja Formulėje 1.', 'Red Bull Racing makes its Formula 1 debut.'],
+  ['2009', 'Startuoja Red Bull Cliff Diving World Series.', 'The Red Bull Cliff Diving World Series begins.'],
+  ['2010–13', 'Sebastianas Vettelis su Red Bull Racing laimi keturis F1 titulus iš eilės.', 'Sebastian Vettel wins four F1 titles in a row with Red Bull Racing.'],
+  ['2012', 'Red Bull Stratos: Felixas Baumgartneris šoka iš 39 km aukščio ir viršija garso greitį.', 'Red Bull Stratos: Felix Baumgartner jumps from 39 km and breaks the sound barrier.'],
+  ['2021–24', 'Maxas Verstappenas iškovoja keturis F1 pasaulio čempiono titulus.', 'Max Verstappen wins four F1 world championships.'],
+];
+
+// Non-alcoholic mixes, one per featured flavour
+const RECIPES = [
+  { id: 'red', min: 2,
+    lt: ['Arbūzų gaiva', ['1 skardinė The Red Edition', 'Sauja ledo', '2 laimo skiltelės', 'Kelios mėtų šakelės']],
+    en: ['Watermelon cooler', ['1 can of The Red Edition', 'A handful of ice', '2 lime wedges', 'A few sprigs of mint']] },
+  { id: 'blue', min: 3,
+    lt: ['Mėlynasis ledas', ['1 skardinė The Blue Edition', 'Saujelė šaldytų mėlynių', '1 šaukštas citrinos sulčių', 'Grūstas ledas']],
+    en: ['Blue ice', ['1 can of The Blue Edition', 'A handful of frozen blueberries', '1 tbsp lemon juice', 'Crushed ice']] },
+  { id: 'yellow', min: 3,
+    lt: ['Tropikų saulė', ['1 skardinė The Yellow Edition', '50 ml ananasų sulčių', 'Ledo kubeliai', 'Laimo griežinėlis']],
+    en: ['Tropical sun', ['1 can of The Yellow Edition', '50 ml pineapple juice', 'Ice cubes', 'A slice of lime']] },
+  { id: 'apricot', min: 4,
+    lt: ['Abrikosų burbulai', ['1 skardinė The Apricot Edition', '3 braškės, perpjautos pusiau', '50 ml gazuoto vandens', 'Ledo kubeliai']],
+    en: ['Apricot fizz', ['1 can of The Apricot Edition', '3 strawberries, halved', '50 ml sparkling water', 'Ice cubes']] },
+];
+
+// ================= Sound (synthesised with Web Audio, no files) =================
+const Sound = (() => {
+  let ctx, master, noiseBuf, wind, on = false;
+  function ensure() {
+    if (ctx) return;
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+    noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    const d = noiseBuf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+  const noise = () => { const s = ctx.createBufferSource(); s.buffer = noiseBuf; s.loop = true; return s; };
+  const live = () => ctx && on;
+  function env(g, t, peak, attack, release) {
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(peak, t + attack);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + attack + release);
+  }
+  return {
+    get on() { return on; },
+    setOn(v) {
+      ensure(); on = v;
+      if (ctx.state === 'suspended') ctx.resume();
+      master.gain.setTargetAtTime(v ? .9 : 0, ctx.currentTime, .05);
+    },
+    whoosh(dur = 1.5, from = -1, to = 1, peak = .9) {
+      if (!live()) return;
+      const t = ctx.currentTime, s = noise(), f = ctx.createBiquadFilter(), g = ctx.createGain(), p = ctx.createStereoPanner();
+      f.type = 'bandpass'; f.Q.value = 1.3;
+      f.frequency.setValueAtTime(250, t); f.frequency.exponentialRampToValueAtTime(2600, t + dur * .55); f.frequency.exponentialRampToValueAtTime(500, t + dur);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + dur * .55); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      p.pan.setValueAtTime(from, t); p.pan.linearRampToValueAtTime(to, t + dur);
+      s.connect(f).connect(g).connect(p).connect(master); s.start(t); s.stop(t + dur + .1);
+    },
+    freeze() {
+      if (!live()) return;
+      const t = ctx.currentTime, s = noise(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+      f.type = 'highpass'; f.frequency.value = 6500;
+      env(g, t, .35, .05, .9);
+      s.connect(f).connect(g).connect(master); s.start(t); s.stop(t + 1.1);
+      [1760, 2637, 3520].forEach((hz, i) => {
+        const o = ctx.createOscillator(), og = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = hz;
+        env(og, t + i * .04, .05, .01, .8);
+        o.connect(og).connect(master); o.start(t + i * .04); o.stop(t + 1);
+      });
+    },
+    thud(delay = 0) {
+      if (!live()) return;
+      const t = ctx.currentTime + delay, o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine'; o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(38, t + .25);
+      env(g, t, .7, .005, .3);
+      o.connect(g).connect(master); o.start(t); o.stop(t + .4);
+      const c = ctx.createOscillator(), cg = ctx.createGain();
+      c.type = 'triangle'; c.frequency.value = 2900;
+      env(cg, t, .06, .002, .12);
+      c.connect(cg).connect(master); c.start(t); c.stop(t + .2);
+    },
+    // Ring-pull crack, pressurised hiss, then fizz
+    open() {
+      if (!live()) return;
+      const t = ctx.currentTime;
+      const crack = noise(), cf = ctx.createBiquadFilter(), cg = ctx.createGain();
+      cf.type = 'highpass'; cf.frequency.value = 1500;
+      env(cg, t, 1, .002, .05);
+      crack.connect(cf).connect(cg).connect(master); crack.start(t); crack.stop(t + .1);
+      const tink = ctx.createOscillator(), tg = ctx.createGain();
+      tink.type = 'triangle'; tink.frequency.value = 3400;
+      env(tg, t, .08, .002, .08);
+      tink.connect(tg).connect(master); tink.start(t); tink.stop(t + .12);
+      const hiss = noise(), hf = ctx.createBiquadFilter(), hg = ctx.createGain();
+      hf.type = 'bandpass'; hf.Q.value = .6;
+      hf.frequency.setValueAtTime(5200, t + .03); hf.frequency.exponentialRampToValueAtTime(3000, t + 1.1);
+      env(hg, t + .03, .75, .03, 1.1);
+      hiss.connect(hf).connect(hg).connect(master); hiss.start(t + .03); hiss.stop(t + 1.3);
+      for (let i = 0; i < 70; i++) {
+        const at = t + .15 + Math.pow(Math.random(), 1.6) * 2.2;
+        const b = noise(), bf = ctx.createBiquadFilter(), bg = ctx.createGain();
+        bf.type = 'highpass'; bf.frequency.value = 4000 + Math.random() * 4000;
+        env(bg, at, .04 + Math.random() * .12, .001, .012);
+        b.connect(bf).connect(bg).connect(master); b.start(at, Math.random()); b.stop(at + .03);
+      }
+    },
+    click(freq = 900, vol = .08) {
+      if (!live()) return;
+      const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine'; o.frequency.setValueAtTime(freq, t); o.frequency.exponentialRampToValueAtTime(freq * 1.6, t + .05);
+      env(g, t, vol, .003, .06);
+      o.connect(g).connect(master); o.start(t); o.stop(t + .1);
+    },
+    startWind() {
+      if (!ctx || wind) return;
+      const s = noise(), f = ctx.createBiquadFilter(), g = ctx.createGain(), lfo = ctx.createOscillator(), lg = ctx.createGain();
+      f.type = 'lowpass'; f.frequency.value = 450; f.Q.value = .8;
+      lfo.frequency.value = .08; lg.gain.value = 220;
+      lfo.connect(lg).connect(f.frequency);
+      g.gain.setValueAtTime(0.0001, ctx.currentTime); g.gain.exponentialRampToValueAtTime(.05, ctx.currentTime + 3);
+      s.connect(f).connect(g).connect(master); s.start(); lfo.start();
+      wind = s;
+    },
+  };
+})();
+
+// ================= Particles (spray when a can is opened) =================
+function makeParticles(canvas) {
+  const ctx = canvas.getContext('2d');
+  let parts = [];
+  const R = Math.random;
+  return {
+    canvas,
+    resize(w, h) { canvas.width = w; canvas.height = h; },
+    spray(x, y, scale = 1) {
+      for (let i = 0; i < 160; i++) {
+        const a = -Math.PI / 2 + (R() - .5) * .9, v = (7 + R() * 15) * scale;
+        parts.push({ k: 'drop', x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: (1.2 + R() * 3.4) * scale, life: 1, d: .007 + R() * .01 });
+      }
+      for (let i = 0; i < 46; i++) parts.push({ k: 'bub', x: x + (R() - .5) * 50, y: y + R() * 30, vx: (R() - .5) * 1.4, vy: -(1 + R() * 3), r: 3 + R() * 9, life: 1, d: .005 + R() * .007, ph: R() * 6 });
+      for (let i = 0; i < 16; i++) parts.push({ k: 'mist', x: x + (R() - .5) * 30, y: y - R() * 40, vx: (R() - .5) * 2, vy: -(.4 + R() * 1.4), r: 25 + R() * 35, g: 1.4 + R(), life: 1, d: .011 });
+    },
+    draw(t, f) {
+      if (!parts.length) return;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, canvas.width, H);
+      parts = parts.filter(p => p.life > 0 && p.y < H + 60);
+      for (const p of parts) {
+        p.life -= p.d * f;
+        if (p.k === 'drop') {
+          p.vy += .42 * f; p.x += p.vx * f; p.y += p.vy * f;
+          ctx.fillStyle = `rgba(215,232,255,${.85 * p.life})`;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = `rgba(255,255,255,${p.life})`;
+          ctx.beginPath(); ctx.arc(p.x - p.r * .3, p.y - p.r * .3, p.r * .35, 0, Math.PI * 2); ctx.fill();
+        } else if (p.k === 'bub') {
+          p.x += (p.vx + Math.sin(t * 5 + p.ph) * .5) * f; p.y += p.vy * f;
+          ctx.strokeStyle = `rgba(255,255,255,${.7 * p.life})`; ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.stroke();
+          ctx.fillStyle = `rgba(255,255,255,${.6 * p.life})`;
+          ctx.beginPath(); ctx.arc(p.x - p.r * .35, p.y - p.r * .35, p.r * .22, 0, Math.PI * 2); ctx.fill();
+        } else {
+          p.r += p.g * f; p.x += p.vx * f; p.y += p.vy * f;
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+          g.addColorStop(0, `rgba(235,242,255,${.28 * p.life})`); g.addColorStop(1, 'rgba(235,242,255,0)');
+          ctx.fillStyle = g; ctx.fillRect(p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
+        }
+      }
+      if (!parts.length) ctx.clearRect(0, 0, canvas.width, H);
+    },
+  };
+}
+
+(() => {
+  const body = document.body;
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = () => innerWidth < 900;
+  if (!window.gsap) { body.classList.remove('intro'); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  const cans = $('.cans'), canC = $('.can-c'), canL = $('.can-l'), canR = $('.can-r'), glow = $('.glow'), hint = $('.open-hint');
+
+  // ---------- Smooth scroll ----------
+  let lenis = null;
+  if (window.Lenis && !reduce) {
+    lenis = new Lenis({ lerp: .09 });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+    lenis.stop();
+  }
+  const lockScroll = v => { if (lenis) v ? lenis.stop() : lenis.start(); };
+  $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    lenis ? lenis.scrollTo(target, { duration: 1.6 }) : target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  // ---------- Gallery cards ----------
+  const track = $('.track');
+  track.innerHTML = FLAVOURS.map((f, i) => `
+    <button class="card" type="button" role="listitem" data-i="${i}" data-cursor="cursorSee" style="--c:${f.c}">
+      <span class="halo" aria-hidden="true"></span>
+      <img src="img/cans/${f.id}.webp" alt="" loading="lazy" width="528" height="1348">
+      <span class="num">${String(i + 1).padStart(2, '0')}</span>
+      <h3>${f.name.replace('Red Bull ', '').replace('The ', '')}</h3>
+      <span class="taste"></span>
+    </button>`).join('');
+  const tickerTrack = $('.ticker-track');
+  const star = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.6 7.4H22l-6 4.6 2.3 7.4L12 17l-6.3 4.4L8 14 2 9.4h7.4z"/></svg>';
+
+  // ---------- Language ----------
+  let lang = 'lt';
+  try { if (localStorage.getItem('rb-lang') === 'en') lang = 'en'; } catch (e) {}
+  const T = () => I18N[lang];
+
+  function splitWords(el) {
+    const walk = node => {
+      [...node.childNodes].forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span'), i = document.createElement('span');
+            w.className = 'w'; i.textContent = part; w.appendChild(i); frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && n.tagName !== 'BR') walk(n);
+      });
+    };
+    walk(el);
+  }
+
+  function applyLang() {
+    const t = T();
+    document.documentElement.lang = lang;
+    $$('[data-i18n]').forEach(el => { const v = t[el.dataset.i18n]; if (v) el.innerHTML = v; });
+    $$('[data-i18n-alt]').forEach(el => { el.alt = t[el.dataset.i18nAlt]; });
+    $$('.reveal').forEach(splitWords);
+    $$('[data-lang-toggle]').forEach(b => { b.textContent = lang === 'lt' ? 'EN' : 'LT'; b.setAttribute('aria-label', lang === 'lt' ? 'Switch to English' : 'Perjungti į lietuvių'); });
+    $('#mute').setAttribute('aria-label', t.sound);
+    $('.dlg-close').setAttribute('aria-label', t.close);
+    $('.dlg-prev').setAttribute('aria-label', t.prev);
+    $('.dlg-next').setAttribute('aria-label', t.next);
+    $$('.card').forEach(c => { const f = FLAVOURS[+c.dataset.i]; c.querySelector('.taste').textContent = f[lang][0]; c.setAttribute('aria-label', `${f.name} – ${f[lang][0]}`); });
+    tickerTrack.innerHTML = Array(10).fill(`<span>${t.ticker}</span>${star}`).join('');
+    document.title = lang === 'lt' ? 'Red Bull – Suteikia sparnus' : 'Red Bull – Gives you wings';
+    if (dlg.open) fillDialog(dlgIndex, false);
+    langHooks.forEach(fn => fn());
+  }
+  const langHooks = [];
+
+  // ---------- Toast ----------
+  const toast = $('.toast'), toastText = $('.toast-text');
+  let toastTimer;
+  function showToast(key, ms = 2600) {
+    toastText.textContent = T()[key];
+    toast.classList.toggle('no-icon', !key.startsWith('sound'));
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), ms);
+  }
+
+  // ---------- Sound: browsers only allow audio after the first click/tap/key ----------
+  const muteBtn = $('#mute');
+  let soundPref = null;
+  try { soundPref = localStorage.getItem('rb-sound'); } catch (e) {}
+  function setSound(v, announce = true) {
+    Sound.setOn(v);
+    muteBtn.setAttribute('aria-pressed', v);
+    if (v && !body.classList.contains('intro')) Sound.startWind();
+    try { localStorage.setItem('rb-sound', v ? 'on' : 'off'); } catch (e) {}
+    if (announce) showToast(v ? 'soundOn' : 'soundOff', 1800);
+  }
+  muteBtn.addEventListener('click', () => setSound(!Sound.on));
+  function unlock(e) {
+    removeEventListener('pointerdown', unlock, true);
+    removeEventListener('keydown', unlock, true);
+    if (e.target.closest && e.target.closest('#mute')) return; // the button itself decides
+    if (e.type === 'keydown' && e.key && e.key.toLowerCase() === 'm') return; // so does the M shortcut
+    if (soundPref !== 'off') setSound(true);
+  }
+  addEventListener('pointerdown', unlock, true);
+  addEventListener('keydown', unlock, true);
+
+  // ---------- Fog ----------
+  const fogCanvas = $('#fog'), fx = fogCanvas.getContext('2d');
+  const fogLevel = { v: 0 };
+  let blobs = [], specks = [];
+  function sizeFog() {
+    fogCanvas.width = innerWidth; fogCanvas.height = innerHeight;
+    const W = innerWidth, H = innerHeight;
+    // phones get a lighter fog so scrolling stays smooth
+    blobs = Array.from({ length: isMobile() ? 14 : 34 }, () => ({
+      x: Math.random() * W, y: H * (isMobile() ? .5 : .74) + Math.random() * H * .3,
+      r: 140 + Math.random() * 300, a: .05 + Math.random() * .09,
+      sp: (.1 + Math.random() * .25) * (Math.random() < .5 ? -1 : 1), ph: Math.random() * 6.28,
+    }));
+    specks = Array.from({ length: isMobile() ? 40 : 90 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: .6 + Math.random() * 1.6, v: .15 + Math.random() * .4, a: .2 + Math.random() * .5 }));
+  }
+  function drawFog(t) {
+    const W = fogCanvas.width, H = fogCanvas.height;
+    fx.clearRect(0, 0, W, H);
+    if (fogLevel.v <= .01) return;
+    fx.globalAlpha = fogLevel.v;
+    for (const b of blobs) {
+      const x = b.x + Math.sin(t * b.sp + b.ph) * 120;
+      const g = fx.createRadialGradient(x, b.y, 0, x, b.y, b.r);
+      g.addColorStop(0, `rgba(225,236,255,${b.a})`); g.addColorStop(1, 'rgba(225,236,255,0)');
+      fx.fillStyle = g; fx.fillRect(x - b.r, b.y - b.r, b.r * 2, b.r * 2);
+    }
+    for (const s of specks) {
+      if (!reduce) { s.y -= s.v; if (s.y < -5) { s.y = H + 5; s.x = Math.random() * W; } }
+      fx.fillStyle = `rgba(210,228,255,${s.a})`;
+      fx.beginPath(); fx.arc(s.x, s.y, s.r, 0, Math.PI * 2); fx.fill();
+    }
+    fx.globalAlpha = 1;
+  }
+
+  const pageFx = makeParticles($('#fx'));
+  const dlgFx = makeParticles($('.dlg-fx'));
+  sizeFog(); pageFx.resize(innerWidth, innerHeight);
+  gsap.ticker.add((t, dt) => { const f = Math.min(dt / 16.67, 3); drawFog(t); pageFx.draw(t, f); dlgFx.draw(t, f); });
+
+  // ---------- Open the hero can ----------
+  let opening = false;
+  function shakeAndSpray(img, system, origin) {
+    Sound.open();
+    if (!reduce) system.spray(origin.x, origin.y);
+    return gsap.timeline()
+      .to(img, { keyframes: { rotation: [0, -4, 4, -3, 3, -1, 0] }, duration: .4, ease: 'none' })
+      .to(img, { scale: 1.05, duration: .12, ease: 'power2.out' }, .05)
+      .to(img, { scale: 1, duration: .6, ease: 'elastic.out(1, .4)' }, .17);
+  }
+  function openCan() {
+    if (opening || body.classList.contains('intro')) return;
+    opening = true;
+    hint.classList.add('gone');
+    const r = canC.getBoundingClientRect();
+    shakeAndSpray(canC, pageFx, { x: r.left + r.width / 2, y: r.top + r.height * .04 })
+      .to(glow, { scale: 1.35, duration: .15 }, .05)
+      .to(glow, { scale: 1, duration: 1.2, ease: 'power2.out' }, .2)
+      .eventCallback('onComplete', () => { opening = false; });
+  }
+  canC.addEventListener('click', openCan);
+  canC.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCan(); } });
+  $('#open-btn').addEventListener('click', openCan);
+
+  // ---------- Mouse tilt, idle float ----------
+  const tiltY = gsap.quickTo(canC, 'rotationY', { duration: .8, ease: 'power3' });
+  const tiltX = gsap.quickTo(canC, 'rotationX', { duration: .8, ease: 'power3' });
+  if (!reduce) addEventListener('pointermove', e => {
+    tiltY((e.clientX / innerWidth - .5) * 14);
+    tiltX(-(e.clientY / innerHeight - .5) * 6);
+  });
+  function startIdle() {
+    if (reduce) return;
+    gsap.set([canC, canL, canR], { y: 0 });
+    gsap.to(canC, { y: -14, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    gsap.to(canL, { y: -10, duration: 3.1, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: .6 });
+    gsap.to(canR, { y: -10, duration: 2.9, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.1 });
+  }
+
+  // ---------- Cursor + magnetic buttons ----------
+  const cursor = $('.cursor'), cursorLabel = cursor.querySelector('span');
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce) {
+    const cx = gsap.quickTo(cursor, 'x', { duration: .35, ease: 'power3' });
+    const cy = gsap.quickTo(cursor, 'y', { duration: .35, ease: 'power3' });
+    addEventListener('pointermove', e => { cx(e.clientX); cy(e.clientY); });
+    addEventListener('pointerover', e => {
+      const labelled = e.target.closest('[data-cursor]');
+      const link = e.target.closest('a, button');
+      cursor.classList.toggle('big', !!labelled);
+      cursor.classList.toggle('link', !labelled && !!link);
+      cursorLabel.textContent = labelled ? T()[labelled.dataset.cursor] : '';
+    });
+    $$('.magnet').forEach(btn => {
+      btn.addEventListener('pointermove', e => {
+        const r = btn.getBoundingClientRect();
+        gsap.to(btn, { x: (e.clientX - r.left - r.width / 2) * .25, y: (e.clientY - r.top - r.height / 2) * .35, duration: .4, ease: 'power3' });
+      });
+      btn.addEventListener('pointerleave', () => gsap.to(btn, { x: 0, y: 0, duration: .7, ease: 'elastic.out(1, .35)' }));
+    });
+  }
+
+  // ---------- Mobile menu ----------
+  const menuBtn = $('.menu-btn'), mmenu = $('.mmenu');
+  function setMenu(v) {
+    if (v === mmenu.classList.contains('open')) return;
+    mmenu.classList.toggle('open', v);
+    menuBtn.setAttribute('aria-expanded', v);
+    body.classList.toggle('modal', v);
+    lockScroll(v);
+    Sound.click(v ? 800 : 600, .06);
+    if (v && !reduce) gsap.fromTo('.mmenu li, .mmenu .btn', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .5, stagger: .04, ease: 'power3.out' });
+  }
+  menuBtn.addEventListener('click', () => setMenu(!mmenu.classList.contains('open')));
+  // capture, so scrolling is unlocked before the link's own smooth-scroll handler runs
+  mmenu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); }, true);
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  addEventListener('resize', () => { if (!isMobile()) setMenu(false); });
+
+  // ---------- Flavour dialog ----------
+  const dlg = $('#flavour'), dlgBox = $('.dlg'), dlgCan = $('.dlg-can');
+  let dlgIndex = 0;
+  function fillDialog(i, animate = true) {
+    dlgIndex = (i + FLAVOURS.length) % FLAVOURS.length;
+    const f = FLAVOURS[dlgIndex];
+    const set = () => {
+      dlgCan.src = `img/cans/${f.id}.webp`;
+      dlgCan.alt = f.name;
+      $('.dlg-taste').textContent = f[lang][0];
+      $('#dlg-name').textContent = f.name;
+      $('.dlg-desc').textContent = f[lang][1];
+      $('.dlg-more').href = `https://www.redbull.com/${lang === 'lt' ? 'lt-lt' : 'int-en'}/energydrink/products/${f.slug}`;
+      $('.dlg-count').textContent = `${String(dlgIndex + 1).padStart(2, '0')} / ${FLAVOURS.length}`;
+      dlgBox.style.setProperty('--c', f.c);
+    };
+    if (!animate || reduce) { set(); return; }
+    gsap.timeline()
+      .to([dlgCan, '.dlg-info > *'], { opacity: 0, x: -20, duration: .18, stagger: .02 })
+      .add(set)
+      .fromTo([dlgCan, '.dlg-info > *'], { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: .45, stagger: .04, ease: 'power3.out' });
+  }
+  function openDialog(i) {
+    fillDialog(i, false);
+    dlg.showModal();
+    body.classList.add('modal');
+    lockScroll(true);
+    Sound.whoosh(.5, 0, 0, .4);
+    const r = dlgBox.getBoundingClientRect();
+    dlgFx.resize(r.width, r.height);
+    if (!reduce) {
+      gsap.fromTo(dlgBox, { y: 40, opacity: 0, scale: .97 }, { y: 0, opacity: 1, scale: 1, duration: .55, ease: 'power3.out' });
+      gsap.fromTo(dlgCan, { y: -80, rotation: -10, opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: .9, ease: 'power4.out', delay: .05 });
+    }
+  }
+  function closeDialog() { dlg.close(); }
+  dlg.addEventListener('close', () => { body.classList.remove('modal'); lockScroll(false); });
+  dlg.addEventListener('click', e => { if (e.target === dlg) closeDialog(); });
+  dlg.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { Sound.click(); fillDialog(dlgIndex + 1); }
+    if (e.key === 'ArrowLeft') { Sound.click(); fillDialog(dlgIndex - 1); }
+  });
+  $('.dlg-close').addEventListener('click', closeDialog);
+  $('.dlg-next').addEventListener('click', () => { Sound.click(); fillDialog(dlgIndex + 1); });
+  $('.dlg-prev').addEventListener('click', () => { Sound.click(); fillDialog(dlgIndex - 1); });
+  const dlgOpen = () => {
+    const b = dlgBox.getBoundingClientRect(), r = dlgCan.getBoundingClientRect();
+    dlgFx.resize(b.width, b.height);
+    shakeAndSpray(dlgCan, dlgFx, { x: r.left - b.left + r.width / 2, y: r.top - b.top + r.height * .04 });
+  };
+  $('.dlg-open').addEventListener('click', dlgOpen);
+  dlgCan.addEventListener('click', dlgOpen);
+
+  $$('.card').forEach(card => {
+    const f = FLAVOURS[+card.dataset.i];
+    card.addEventListener('click', () => openDialog(+card.dataset.i));
+    card.addEventListener('pointerenter', () => {
+      Sound.click(1400, .03);
+      document.documentElement.style.setProperty('--accent', f.c);
+    });
+    card.addEventListener('focus', () => document.documentElement.style.setProperty('--accent', f.c));
+  });
+
+  // ---------- Quiz ----------
+  const quizCard = $('.quiz-card'), quizQ = $('.quiz-q'), quizOpts = $('.quiz-opts'), quizSteps = $$('.quiz-steps i');
+  let qStep = 0, answers = [], qPick = null, qBusy = false;
+  function renderQuiz() {
+    const Q = QUIZ[lang][qStep];
+    quizQ.textContent = Q.q;
+    quizOpts.innerHTML = Q.o.map((o, i) => `<button class="opt" type="button" data-a="${i}"><b>${'ABCD'[i]}</b>${o}</button>`).join('');
+    quizSteps.forEach((s, i) => s.classList.toggle('on', i <= qStep));
+  }
+  function pickFlavour([when, taste, sugar]) {
+    if (sugar === 1) return taste === 0 ? 'sugarfree' : 'zero';
+    const lists = [['original'], ['red', 'apricot', 'peach', 'yellow'], ['blue', 'pink', 'white', 'winter'], ['yellow', 'ice', 'white', 'peach']];
+    const l = lists[taste];
+    return l[when % l.length];
+  }
+  function showResult(animate) {
+    const f = FLAVOURS.find(x => x.id === qPick);
+    quizCard.classList.add('done');
+    const img = quizCard.querySelector('.quiz-result img');
+    img.src = `img/cans/${f.id}.webp`; img.alt = f.name;
+    $('.qr-name').textContent = f.name;
+    $('.qr-taste').textContent = f[lang][1];
+    document.documentElement.style.setProperty('--accent', f.c);
+    if (animate && !reduce) {
+      gsap.fromTo(img, { y: -80, rotation: -12, opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: 1, ease: 'elastic.out(1, .5)' });
+      gsap.fromTo('.quiz-result > div > *', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: .6, stagger: .07, ease: 'power3.out', delay: .15 });
+    }
+  }
+  quizOpts.addEventListener('click', e => {
+    const btn = e.target.closest('.opt');
+    if (!btn || qBusy) return;
+    qBusy = true;
+    answers[qStep] = +btn.dataset.a;
+    Sound.click(1100, .07);
+    const next = () => {
+      if (qStep < QUIZ.lt.length - 1) { qStep++; renderQuiz(); }
+      else { qPick = pickFlavour(answers); Sound.open(); showResult(true); }
+    };
+    if (reduce) { next(); qBusy = false; return; }
+    gsap.timeline({ onComplete: () => { qBusy = false; } })
+      .to('.quiz-q, .opt', { x: -24, opacity: 0, duration: .2, stagger: .03 })
+      .add(next)
+      .fromTo('.quiz-q, .opt', { x: 24, opacity: 0 }, { x: 0, opacity: 1, duration: .35, stagger: .04, ease: 'power3.out' });
+  });
+  $('.qr-again').addEventListener('click', () => {
+    qStep = 0; answers = []; qPick = null;
+    quizCard.classList.remove('done');
+    renderQuiz();
+    Sound.click();
+  });
+  $('.qr-more').addEventListener('click', () => openDialog(FLAVOURS.findIndex(x => x.id === qPick)));
+  $('.qr-share').addEventListener('click', async () => {
+    const f = FLAVOURS.find(x => x.id === qPick);
+    const text = T().qShareText.replace('{x}', f.name);
+    if (navigator.share) { try { await navigator.share({ title: 'Red Bull', text, url: location.href }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(`${text} ${location.href}`); showToast('copied'); } catch (e) {}
+  });
+
+  // ---------- Hero flavour dock ----------
+  const dock = $('.dock');
+  dock.innerHTML = FLAVOURS.map((f, i) => `<button type="button" data-i="${i}" aria-pressed="${i === 0}" data-cursor="cursorPick"><img src="img/cans/${f.id}.webp" alt="" loading="lazy"></button>`).join('');
+  const dockBtns = [...dock.children];
+  let heroIdx = 0;
+  function setHero(i) {
+    if (i === heroIdx) return;
+    heroIdx = i;
+    const f = FLAVOURS[i];
+    dockBtns.forEach((b, k) => b.setAttribute('aria-pressed', k === i));
+    document.documentElement.style.setProperty('--accent', f.c);
+    cans.style.setProperty('--hero', f.c);
+    Sound.whoosh(.45, -.3, .3, .35);
+    // side cans show the neighbouring flavours
+    const n = FLAVOURS.length, prevSrc = `img/cans/${FLAVOURS[(i + n - 1) % n].id}.webp`, nextSrc = `img/cans/${FLAVOURS[(i + 1) % n].id}.webp`;
+    if (reduce) { canC.src = `img/cans/${f.id}.webp`; canL.src = prevSrc; canR.src = nextSrc; return; }
+    gsap.timeline()
+      .to(canC, { scaleX: 0, duration: .18, ease: 'power2.in' })
+      .to([canL, canR], { scaleX: 0, duration: .18, ease: 'power2.in' }, .06)
+      .add(() => { canC.src = `img/cans/${f.id}.webp`; canL.src = prevSrc; canR.src = nextSrc; })
+      .to(canC, { scaleX: 1, duration: .55, ease: 'back.out(1.7)' })
+      .to([canL, canR], { scaleX: 1, duration: .5, ease: 'back.out(1.5)' }, '<.08');
+  }
+  dock.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setHero(+b.dataset.i); });
+  langHooks.push(() => {
+    dock.setAttribute('aria-label', T().dockLabel);
+    dockBtns.forEach((b, i) => b.setAttribute('aria-label', FLAVOURS[i].name));
+    $('.to-top').setAttribute('aria-label', T().toTop);
+    $('.g-board').setAttribute('aria-label', T().gBoard);
+  });
+  langHooks.push(() => { if (qPick) showResult(false); else renderQuiz(); });
+
+  // ---------- History timeline ----------
+  const tlList = $('.tl-list');
+  tlList.innerHTML = HISTORY.map(h => `<div class="tl-item"><div class="tl-year">${h[0]}</div><p></p></div>`).join('');
+  const tlItems = $$('.tl-item');
+  langHooks.push(() => tlItems.forEach((el, i) => { el.querySelector('p').textContent = HISTORY[i][lang === 'lt' ? 1 : 2]; }));
+
+  // ---------- Recipes ----------
+  const rcpGrid = $('.rcp-grid');
+  rcpGrid.innerHTML = RECIPES.map(r => `
+    <article class="rcp" style="--c:${FLAVOURS.find(f => f.id === r.id).c}">
+      <img src="img/cans/${r.id}.webp" alt="" loading="lazy" width="528" height="1348" data-cursor="cursorOpen">
+      <h3></h3>
+      <span class="rcp-meta"></span>
+      <ul></ul>
+      <button class="btn btn-line" type="button"></button>
+    </article>`).join('');
+  const rcpCards = $$('.rcp');
+  langHooks.push(() => rcpCards.forEach((el, i) => {
+    const r = RECIPES[i], f = FLAVOURS.find(x => x.id === r.id);
+    el.querySelector('h3').textContent = r[lang][0];
+    el.querySelector('.rcp-meta').textContent = `${f.name} · ${r.min} min`;
+    el.querySelector('ul').innerHTML = r[lang][1].map(x => `<li>${x}</li>`).join('');
+    el.querySelector('.btn').textContent = T().rMix;
+    el.querySelector('img').alt = f.name;
+  }));
+  langHooks.push(() => menuBtn.setAttribute('aria-label', T().menu));
+  rcpCards.forEach(el => {
+    const img = el.querySelector('img');
+    const mix = () => {
+      const r = img.getBoundingClientRect();
+      shakeAndSpray(img, pageFx, { x: r.left + r.width / 2, y: r.top + r.height * .04 });
+      showToast('rEnjoy', 1800);
+    };
+    img.addEventListener('click', mix);
+    el.querySelector('.btn').addEventListener('click', mix);
+  });
+
+  // ---------- Game: catch the can ----------
+  const gc = $('#game'), gx = gc.getContext('2d');
+  const gOver = $('.game-over'), gMsg = $('.g-msg'), gSub = $('.g-sub'), gStart = $('.g-start');
+  const gScoreEl = $('.g-score'), gBestEl = $('.g-best'), gLives = $$('.lives i');
+  let best = 0;
+  try { best = +localStorage.getItem('rb-best') || 0; } catch (e) {}
+  gBestEl.textContent = best;
+  let board = [];
+  try { board = JSON.parse(localStorage.getItem('rb-board') || '[]'); } catch (e) {}
+  const gMult = $('.g-mult'), gBoard = $('.g-board');
+  function renderBoard(currentId) {
+    gBoard.innerHTML = board.map((b, i) => `<li class="${b.id === currentId ? 'me' : ''}"><span>#${i + 1}</span>${b.s}</li>`).join('');
+  }
+  renderBoard();
+  let G = null, gState = 'ready', canSprites = null, keys = { l: false, r: false }, gw = 0, gh = 0;
+  function sizeGame() {
+    const r = gc.getBoundingClientRect(), d = Math.min(devicePixelRatio, 2);
+    gw = r.width; gh = r.height;
+    gc.width = gw * d; gc.height = gh * d;
+    gx.setTransform(d, 0, 0, d, 0, 0);
+  }
+  function gameText() {
+    const t = T();
+    if (gState === 'ready') { gMsg.textContent = t.gReady; gSub.textContent = t.gReadySub; gStart.textContent = t.gStart; }
+    if (gState === 'over') {
+      gMsg.textContent = G && G.record ? t.gRecord : t.gOver;
+      gSub.textContent = `${t.gYour} ${G ? G.score : 0}`;
+      gStart.textContent = t.gAgain;
+    }
+    if (gState === 'paused') { gMsg.textContent = t.gPaused; gSub.textContent = `${t.gYour} ${G.score}`; gStart.textContent = t.gResume; }
+  }
+  langHooks.push(gameText);
+  const multOf = combo => combo >= 10 ? 3 : combo >= 5 ? 2 : 1;
+  function hud() {
+    gScoreEl.textContent = G.score;
+    gLives.forEach((l, i) => l.classList.toggle('lost', i >= G.lives));
+    const m = multOf(G.combo);
+    gMult.textContent = 'x' + m;
+    gMult.classList.toggle('on', m > 1);
+  }
+  function startGame() {
+    if (gState === 'paused') { resumeGame(); return; }
+    if (!canSprites) canSprites = FLAVOURS.map(f => { const im = new Image(); im.src = `img/cans/${f.id}.webp`; return im; });
+    sizeGame();
+    const mobile = gw < 600;
+    G = { score: 0, lives: 3, items: [], bits: [], texts: [], combo: 0, slow: 0, wide: 0, lvl: 1, banner: null, id: Date.now(), t: 0, spawn: .6, px: gw / 2, tx: gw / 2, pw: mobile ? 96 : 130, pwBase: mobile ? 96 : 130, ch: mobile ? 66 : 82, last: performance.now(), record: false, flash: 0 };
+    gState = 'play';
+    gOver.classList.add('hide');
+    hud();
+    Sound.click(700, .1);
+    requestAnimationFrame(gameLoop);
+  }
+  function resumeGame() {
+    gState = 'play'; G.last = performance.now();
+    gOver.classList.add('hide');
+    requestAnimationFrame(gameLoop);
+  }
+  function pauseGame() {
+    if (gState !== 'play') return;
+    gState = 'paused'; gameText();
+    gOver.classList.remove('hide');
+  }
+  function endGame() {
+    gState = 'over';
+    if (G.score > best) { best = G.score; G.record = G.score > 0; try { localStorage.setItem('rb-best', best); } catch (e) {} }
+    gBestEl.textContent = best;
+    if (G.score > 0) {
+      board = [...board, { s: G.score, id: G.id }].sort((a, b) => b.s - a.s).slice(0, 5);
+      try { localStorage.setItem('rb-board', JSON.stringify(board)); } catch (e) {}
+    }
+    renderBoard(G.id);
+    gMult.classList.remove('on');
+    gameText();
+    gOver.classList.remove('hide');
+    Sound.freeze();
+  }
+  function gameLoop(now) {
+    if (gState !== 'play') return;
+    const dt = Math.min((now - G.last) / 1000, .05);
+    G.last = now; G.t += dt;
+    const level = 1 + G.t / 22;
+    const paddleY = gh - 46, cw = G.ch * 528 / 1348;
+    if (Math.floor(level) > G.lvl) {
+      G.lvl = Math.floor(level);
+      G.banner = { s: `${T().gLevel} ${G.lvl}`, life: 1 };
+      Sound.whoosh(.6, -.5, .5, .5);
+    }
+    if (G.banner && (G.banner.life -= dt * .7) <= 0) G.banner = null;
+
+    // wings power-up widens the bar for a few seconds
+    G.wide = Math.max(0, G.wide - dt);
+    G.pw += (G.pwBase * (G.wide > 0 ? 1.6 : 1) - G.pw) * Math.min(1, dt * 8);
+
+    if (keys.l) G.tx -= 700 * dt;
+    if (keys.r) G.tx += 700 * dt;
+    G.tx = Math.max(G.pw / 2, Math.min(gw - G.pw / 2, G.tx));
+    G.px += (G.tx - G.px) * Math.min(1, dt * 16);
+
+    G.slow = Math.max(0, G.slow - dt);
+    const fall = G.slow > 0 ? .4 : 1; // snowflake slows everything down
+
+    G.spawn -= dt * fall;
+    if (G.spawn <= 0) {
+      const r = Math.random();
+      const kind = G.t > 6 && r < .05 ? 'ice' : G.t > 10 && r < .09 ? 'wings' : G.lives < 3 && r < .11 ? 'heart' : r < .19 ? 'gold' : 'can';
+      G.items.push({ x: 30 + Math.random() * (gw - 60), y: -G.ch, vy: (150 + Math.random() * 70) * level, rot: (Math.random() - .5) * .6, vr: (Math.random() - .5) * 2, img: Math.floor(Math.random() * FLAVOURS.length), kind, gold: kind === 'gold' });
+      G.spawn = Math.max(.32, 1.05 / level);
+    }
+
+    for (const it of G.items) {
+      it.y += it.vy * dt * fall; it.rot += it.vr * dt;
+      const bottom = it.y + G.ch / 2;
+      if (!it.done && bottom >= paddleY && bottom <= paddleY + 26 && Math.abs(it.x - G.px) < G.pw / 2 + cw / 2) {
+        it.done = 'caught';
+        if (it.kind === 'ice') {
+          G.slow = 4;
+          Sound.freeze();
+          G.texts.push({ x: it.x, y: paddleY - 24, s: T().gSlow, life: 1, c: '#bfe3ff' });
+        } else if (it.kind === 'wings') {
+          G.wide = 6;
+          Sound.whoosh(.5, -.4, .4, .5);
+          G.texts.push({ x: it.x, y: paddleY - 24, s: T().gWings, life: 1, c: '#ffc72c' });
+        } else if (it.kind === 'heart') {
+          G.lives = Math.min(3, G.lives + 1);
+          Sound.click(1500, .12);
+          G.texts.push({ x: it.x, y: paddleY - 24, s: T().gLife, life: 1, c: '#ff5c85' });
+        } else {
+          G.combo++;
+          const pts = (it.gold ? 3 : 1) * multOf(G.combo);
+          G.score += pts;
+          Sound.click(it.gold ? 1800 : 1100 + Math.min(G.combo, 12) * 40, it.gold ? .14 : .09);
+          G.texts.push({ x: it.x, y: paddleY - 24, s: '+' + pts, life: 1, c: it.gold ? '#ffc72c' : '#ffffff' });
+        }
+        for (let i = 0; i < (it.kind === 'can' ? 14 : 26); i++) G.bits.push({ x: it.x, y: paddleY, vx: (Math.random() - .5) * 260, vy: -Math.random() * 320, life: 1, gold: it.gold || it.kind === 'wings', ice: it.kind === 'ice', heart: it.kind === 'heart' });
+        hud();
+      } else if (!it.done && it.y - G.ch / 2 > gh) {
+        it.done = 'missed';
+        if (it.kind === 'ice' || it.kind === 'wings' || it.kind === 'heart') continue; // missing a power-up costs nothing
+        G.lives--; G.flash = 1; G.combo = 0;
+        Sound.thud();
+        if (navigator.vibrate) navigator.vibrate(90);
+        hud();
+        if (G.lives <= 0) { draw(paddleY, cw); endGame(); return; }
+      }
+    }
+    G.items = G.items.filter(it => !it.done);
+    G.bits = G.bits.filter(b => (b.life -= dt * 1.6) > 0);
+    G.bits.forEach(b => { b.vy += 700 * dt; b.x += b.vx * dt; b.y += b.vy * dt; });
+    G.texts = G.texts.filter(t => (t.life -= dt * 1.2) > 0);
+    G.texts.forEach(t => { t.y -= 60 * dt; });
+    G.flash = Math.max(0, G.flash - dt * 3);
+    draw(paddleY, cw);
+    requestAnimationFrame(gameLoop);
+  }
+  function draw(paddleY, cw) {
+    gx.clearRect(0, 0, gw, gh);
+    if (G.flash > 0) { gx.fillStyle = `rgba(219,10,64,${.25 * G.flash})`; gx.fillRect(0, 0, gw, gh); }
+    if (G.slow > 0) {
+      const a = Math.min(1, G.slow) * .22;
+      const fr = gx.createRadialGradient(gw / 2, gh / 2, gh * .2, gw / 2, gh / 2, gw * .7);
+      fr.addColorStop(0, 'rgba(160,210,255,0)'); fr.addColorStop(1, `rgba(170,215,255,${a * 2})`);
+      gx.fillStyle = fr; gx.fillRect(0, 0, gw, gh);
+    }
+    for (const it of G.items) {
+      if (it.kind === 'ice') {
+        // snowflake power-up
+        gx.save();
+        gx.translate(it.x, it.y); gx.rotate(it.rot);
+        gx.strokeStyle = '#d6ecff'; gx.lineWidth = 3; gx.lineCap = 'round';
+        gx.shadowColor = '#8fd0ff'; gx.shadowBlur = 20;
+        for (let k = 0; k < 6; k++) {
+          gx.rotate(Math.PI / 3);
+          gx.beginPath(); gx.moveTo(0, 0); gx.lineTo(0, -20);
+          gx.moveTo(0, -12); gx.lineTo(-6, -17); gx.moveTo(0, -12); gx.lineTo(6, -17);
+          gx.stroke();
+        }
+        gx.restore();
+        continue;
+      }
+      if (it.kind === 'wings' || it.kind === 'heart') {
+        gx.save();
+        gx.translate(it.x, it.y); gx.rotate(it.rot * .3);
+        const c = it.kind === 'wings' ? '#ffd75a' : '#ff3d6b';
+        gx.fillStyle = c; gx.shadowColor = c; gx.shadowBlur = 22;
+        gx.beginPath();
+        if (it.kind === 'wings') {
+          for (const s of [-1, 1]) {
+            gx.moveTo(0, 4);
+            gx.bezierCurveTo(s * 10, -14, s * 30, -18, s * 34, -10);
+            gx.bezierCurveTo(s * 26, -6, s * 28, 2, s * 20, 4);
+            gx.bezierCurveTo(s * 22, 10, s * 12, 12, 0, 4);
+          }
+        } else {
+          gx.moveTo(0, 14);
+          gx.bezierCurveTo(-26, -4, -14, -24, 0, -10);
+          gx.bezierCurveTo(14, -24, 26, -4, 0, 14);
+        }
+        gx.fill();
+        gx.restore();
+        continue;
+      }
+      const im = canSprites[it.img];
+      gx.save();
+      gx.translate(it.x, it.y); gx.rotate(it.rot);
+      if (it.gold) { gx.shadowColor = '#ffc72c'; gx.shadowBlur = 28; }
+      if (im.complete && im.naturalWidth) gx.drawImage(im, -cw / 2, -G.ch / 2, cw, G.ch);
+      if (it.gold) { gx.globalCompositeOperation = 'source-atop'; gx.fillStyle = 'rgba(255,199,44,.45)'; gx.fillRect(-cw / 2, -G.ch / 2, cw, G.ch); }
+      gx.restore();
+    }
+    for (const b of G.bits) {
+      gx.fillStyle = b.gold ? `rgba(255,214,90,${b.life})` : b.ice ? `rgba(170,220,255,${b.life})` : b.heart ? `rgba(255,92,133,${b.life})` : `rgba(215,232,255,${b.life})`;
+      gx.beginPath(); gx.arc(b.x, b.y, 3, 0, Math.PI * 2); gx.fill();
+    }
+    gx.textAlign = 'center';
+    gx.font = 'italic 900 24px Archivo, sans-serif';
+    for (const t of G.texts) {
+      gx.globalAlpha = t.life;
+      gx.fillStyle = t.c;
+      gx.fillText(t.s, t.x, t.y);
+    }
+    if (G.banner) {
+      gx.globalAlpha = Math.min(1, G.banner.life * 2);
+      gx.fillStyle = '#ffffff';
+      gx.font = `italic 900 ${gw < 600 ? 40 : 60}px Archivo, sans-serif`;
+      gx.fillText(G.banner.s.toUpperCase(), gw / 2, gh * .42 - (1 - G.banner.life) * 30);
+    }
+    gx.globalAlpha = 1;
+    // Paddle: glowing red bar (gold while the wings last)
+    const x = G.px - G.pw / 2;
+    gx.save();
+    gx.shadowColor = G.wide > 0 ? 'rgba(255,199,44,.9)' : 'rgba(219,10,64,.8)'; gx.shadowBlur = 24;
+    const grad = gx.createLinearGradient(0, paddleY, 0, paddleY + 16);
+    grad.addColorStop(0, '#ff3d6b'); grad.addColorStop(1, '#b3002e');
+    gx.fillStyle = grad;
+    gx.beginPath(); gx.roundRect(x, paddleY, G.pw, 16, 8); gx.fill();
+    gx.restore();
+    gx.fillStyle = 'rgba(255,255,255,.9)';
+    gx.font = 'italic 900 11px Archivo, sans-serif'; gx.textAlign = 'center';
+    gx.fillText('RED BULL', G.px, paddleY + 12);
+  }
+  gStart.addEventListener('click', startGame);
+  const aim = e => { if (!G) return; const r = gc.getBoundingClientRect(); G.tx = e.clientX - r.left; };
+  gc.addEventListener('pointermove', aim);
+  gc.addEventListener('pointerdown', aim);
+  addEventListener('keydown', e => {
+    if (gState !== 'play') return;
+    if (e.key === 'ArrowLeft') { keys.l = true; e.preventDefault(); }
+    if (e.key === 'ArrowRight') { keys.r = true; e.preventDefault(); }
+    if (e.key === 'p' || e.key === 'P' || e.key === 'Escape') pauseGame();
+  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) pauseGame(); });
+  addEventListener('keyup', e => { if (e.key === 'ArrowLeft') keys.l = false; if (e.key === 'ArrowRight') keys.r = false; });
+
+  applyLang();
+  $$('[data-lang-toggle]').forEach(b => b.addEventListener('click', () => {
+    lang = lang === 'lt' ? 'en' : 'lt';
+    try { localStorage.setItem('rb-lang', lang); } catch (e) {}
+    Sound.click(); applyLang(); ScrollTrigger.refresh();
+  }));
+
+  // ---------- Scroll scenes (desktop and mobile get their own set) ----------
+  gsap.set(cans, { xPercent: -50, yPercent: -50 });
+  const mm = gsap.matchMedia();
+  mm.add({ desk: '(min-width: 900px)', mob: '(max-width: 899px)' }, ctx => {
+    const m = ctx.conditions.mob, vw = innerWidth / 100;
+    if (!m) {
+      // Horizontal flavour gallery pinned while you scroll
+      const dist = () => track.scrollWidth - innerWidth;
+      gsap.to(track, {
+        x: () => -dist(), ease: 'none',
+        scrollTrigger: {
+          trigger: '#skoniai', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 1, invalidateOnRefresh: true,
+          onUpdate: self => gsap.set('.gal-bar i', { scaleX: self.progress }),
+        },
+      });
+    }
+    const st = trigger => ({ trigger, start: 'top bottom', end: 'top top', scrub: 1 });
+    const s0 = { x: 0, rotation: 0, scale: 1, opacity: 1 };
+    const s1 = { x: m ? 0 : -42 * vw, rotation: -7, scale: 1, opacity: m ? .45 : 1 };
+    const s2 = { ...s1, scale: .85, opacity: 0 };
+    const s3 = { x: m ? 0 : -20 * vw, rotation: -16, scale: 1.12, opacity: m ? .35 : .9 };
+    const s4 = { ...s3, scale: .85, opacity: 0 };
+    gsap.fromTo(canL, { x: 0, opacity: 1 }, { x: -60 * vw, opacity: 0, ease: 'none', scrollTrigger: st('#sudetis') });
+    gsap.fromTo(canR, { x: 0, opacity: 1 }, { x: 60 * vw, opacity: 0, ease: 'none', scrollTrigger: st('#sudetis') });
+    ScrollTrigger.create({ trigger: '#sudetis', start: 'top 85%', onToggle: self => hint.classList.toggle('away', self.isActive || self.progress > 0) });
+    gsap.fromTo(cans, s0, { ...s1, ease: 'none', scrollTrigger: st('#sudetis') });
+    gsap.fromTo(cans, s1, { ...s2, ease: 'none', immediateRender: false, scrollTrigger: { trigger: '#skoniai', start: 'top bottom', end: 'top 30%', scrub: 1 } });
+    gsap.fromTo(cans, s2, { ...s3, ease: 'none', immediateRender: false, scrollTrigger: st('#ribos') });
+    gsap.fromTo(cans, s3, { ...s4, ease: 'none', immediateRender: false, scrollTrigger: { trigger: '#istorija', start: 'top bottom', end: 'top 30%', scrub: 1 } });
+    gsap.fromTo(cans, s4, { ...s0, ease: 'none', immediateRender: false, scrollTrigger: st('#pirk') });
+    gsap.fromTo(fogLevel, { v: 1 }, { v: .35, ease: 'none', immediateRender: false, scrollTrigger: st('#skoniai') });
+    gsap.fromTo(fogLevel, { v: .35 }, { v: 1, ease: 'none', immediateRender: false, scrollTrigger: st('#pirk') });
+    ScrollTrigger.create({ trigger: '#skoniai', start: 'top 40%', end: 'bottom 60%', onToggle: self => $('.tint').classList.toggle('on', self.isActive) });
+  });
+
+  gsap.to('.progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: .3 } });
+
+  // Timeline: the line fills as you scroll, each year lights up as it is reached
+  gsap.to('.tl-line i', { scaleY: 1, ease: 'none', scrollTrigger: { trigger: '.tl', start: 'top 60%', end: 'bottom 60%', scrub: true } });
+  tlItems.forEach((el, i) => {
+    ScrollTrigger.create({ trigger: el, start: 'top 62%', onEnter: () => { el.classList.add('on'); Sound.click(500 + i * 90, .05); }, onLeaveBack: () => el.classList.remove('on') });
+    if (!reduce) gsap.from(el, { opacity: 0, x: isMobile() ? 30 : (i % 2 ? 50 : -50), duration: .9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
+  });
+
+  // Game pauses when scrolled out of view
+  ScrollTrigger.create({ trigger: '#zaidimas', start: 'top bottom', end: 'bottom top', onToggle: self => { if (!self.isActive) pauseGame(); } });
+  addEventListener('resize', () => { if (G && gState !== 'play') sizeGame(); });
+
+  // Hide the nav when scrolling down, show it when scrolling up; show "back to top" further down
+  const nav = $('nav'), toTop = $('.to-top');
+  ScrollTrigger.create({ start: 0, end: 'max', onUpdate: self => {
+    nav.classList.toggle('solid', self.scroll() > 40);
+    nav.classList.toggle('hide', self.direction === 1 && self.scroll() > 400 && !body.classList.contains('modal'));
+    toTop.classList.toggle('show', self.scroll() > innerHeight * 1.5);
+  } });
+  toTop.addEventListener('click', () => { lenis ? lenis.scrollTo(0, { duration: 1.8 }) : scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+
+  // Highlight the nav link of the section in view
+  $$('.links a').forEach(a => {
+    const sec = document.querySelector(a.getAttribute('href'));
+    if (sec) ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onToggle: self => a.classList.toggle('active', self.isActive) });
+  });
+
+  // The red ticker leans into fast scrolling
+  if (lenis && !reduce) {
+    const skew = gsap.quickTo('.ticker-track', 'skewX', { duration: .4, ease: 'power3' });
+    lenis.on('scroll', e => skew(gsap.utils.clamp(-14, 14, -e.velocity * .5)));
+  }
+
+  // M toggles sound
+  addEventListener('keydown', e => {
+    if (e.key && e.key.toLowerCase() === 'm' && !e.ctrlKey && !e.metaKey && !e.altKey) setSound(!Sound.on);
+  });
+
+  // Word-by-word heading reveals
+  if (!reduce) $$('.reveal').forEach(el => {
+    if (el.closest('.hero')) return;
+    gsap.from(el.querySelectorAll('.w > span'), { yPercent: 115, duration: 1, stagger: .05, ease: 'power4.out', scrollTrigger: { trigger: el, start: 'top 85%' } });
+  });
+
+  // Cards rise in as they come into view
+  if (!reduce) {
+    gsap.from('.quiz-card', { y: 60, opacity: 0, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: '.quiz-card', start: 'top 88%' } });
+    gsap.from(rcpCards, { y: 70, opacity: 0, duration: .9, stagger: .1, ease: 'power3.out', scrollTrigger: { trigger: rcpGrid, start: 'top 85%' } });
+  }
+
+  // 3D tilt that follows the pointer (fine pointers only)
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce) [...rcpCards, $('.quiz-card')].forEach(el => {
+    gsap.set(el, { transformPerspective: 900 });
+    const rx = gsap.quickTo(el, 'rotationX', { duration: .5, ease: 'power3' });
+    const ry = gsap.quickTo(el, 'rotationY', { duration: .5, ease: 'power3' });
+    el.addEventListener('pointermove', e => {
+      const r = el.getBoundingClientRect();
+      ry(((e.clientX - r.left) / r.width - .5) * 10);
+      rx(-((e.clientY - r.top) / r.height - .5) * 8);
+    });
+    el.addEventListener('pointerleave', () => { rx(0); ry(0); });
+  });
+
+  // Counting numbers
+  $$('[data-count]').forEach(el => {
+    const n = +el.dataset.count, suf = el.dataset.suffix || '', o = { v: 0 };
+    ScrollTrigger.create({ trigger: el, start: 'top 85%', once: true, onEnter: () => {
+      if (reduce) return;
+      gsap.to(o, { v: n, duration: 1.4, ease: 'power2.out', onUpdate: () => { el.textContent = Math.round(o.v) + suf; } });
+    } });
+  });
+
+  // ---------- Event video + photos ----------
+  const evVideo = $('.evvideo'), evImgs = $$('.evbg img'), evItems = $$('.events li');
+  // On Save-Data or a slow connection, show a photo instead of streaming the video
+  const conn = navigator.connection, slowNet = !!(conn && (conn.saveData || /2g|3g/.test(conn.effectiveType || '')));
+  // The photos sit in a fixed full-screen layer, so native lazy-loading would fetch them at once: load them near the section instead
+  ScrollTrigger.create({ trigger: '#ribos', start: 'top 250%', once: true, onEnter: () => evImgs.forEach(im => { im.src = im.dataset.src; }) });
+  function showEv(i) {
+    evImgs.forEach(im => im.classList.toggle('on', +im.dataset.ev === i));
+    evItems.forEach(li => li.classList.toggle('on', +li.dataset.ev === i));
+  }
+  evItems.forEach(li => {
+    const i = +li.dataset.ev;
+    li.addEventListener('mouseenter', () => { showEv(i); Sound.click(600, .04); });
+    li.addEventListener('focusin', () => showEv(i));
+  });
+  $('.events').addEventListener('mouseleave', () => showEv(-1));
+  $('.events').addEventListener('focusout', e => { if (!e.currentTarget.contains(e.relatedTarget)) showEv(-1); });
+  ScrollTrigger.create({
+    trigger: '#ribos', start: 'top 60%', end: 'bottom 40%',
+    onToggle: self => {
+      evVideo.classList.toggle('on', self.isActive && !slowNet);
+      if (self.isActive && slowNet) showEv(0);
+      else if (self.isActive && !reduce) { evVideo.preload = 'auto'; evVideo.play().catch(() => {}); }
+      else { evVideo.pause(); showEv(-1); }
+    },
+  });
+
+  // ---------- Intro ----------
+  const fly = $('.fly'), streak = $('.streak'), flash = $('.flash');
+  let introTl, done = false;
+  function revealHero() {
+    if (reduce) return;
+    gsap.from('.hero .w > span', { yPercent: 115, duration: 1.1, stagger: .08, ease: 'power4.out' });
+    gsap.from(['.hero .eyebrow', '.hero .lead', '.hero .ctas', 'nav'], { y: 24, opacity: 0, duration: .9, stagger: .08, ease: 'power3.out', delay: .2, clearProps: 'transform,opacity' });
+  }
+  function finish() {
+    if (done) return;
+    done = true;
+    if (introTl) introTl.progress(1);
+    gsap.set([fly, streak, flash], { autoAlpha: 0 });
+    gsap.set(glow, { opacity: 1 });
+    fogLevel.v = 1;
+    body.classList.remove('intro');
+    lockScroll(false);
+    revealHero();
+    startIdle();
+    if (Sound.on) Sound.startWind();
+    else setTimeout(() => { if (!Sound.on && soundPref !== 'off') showToast('soundHint', 4200); }, 1200);
+    ScrollTrigger.refresh();
+  }
+  $('.skip').addEventListener('click', finish);
+
+  function playIntro() {
+    if (reduce) { finish(); return; }
+    gsap.set(fly, { visibility: 'visible', xPercent: -50, yPercent: -50, x: -innerWidth * 1.1, rotation: -32 });
+    introTl = gsap.timeline({ onComplete: finish });
+    introTl
+      .add(() => Sound.whoosh(1.5), .3)
+      .to(fly, { x: innerWidth * 1.1, rotation: 26, duration: 1.5, ease: 'power3.inOut' }, .3)
+      .to(fly, { keyframes: [{ filter: 'blur(0px) drop-shadow(0 60px 80px rgba(0,0,0,.7))' }, { filter: 'blur(6px) drop-shadow(0 60px 80px rgba(0,0,0,.7))' }, { filter: 'blur(0px) drop-shadow(0 60px 80px rgba(0,0,0,.7))' }, { filter: 'blur(8px) drop-shadow(0 60px 80px rgba(0,0,0,.7))' }], duration: 1.5 }, .3)
+      .fromTo(streak, { scaleX: 0, yPercent: -50, opacity: 0 }, { scaleX: 1, opacity: .9, duration: .9, ease: 'power2.in' }, .5)
+      .to(streak, { opacity: 0, duration: .5 }, 1.4)
+      .add(() => Sound.freeze(), 1.5)
+      .fromTo(flash, { opacity: 0, scale: .5 }, { opacity: 1, scale: 1.4, duration: .22, ease: 'power2.out' }, 1.55)
+      .to(flash, { opacity: 0, scale: 2.4, duration: .8, ease: 'power2.out' }, 1.77)
+      .to(canC, { y: 0, duration: 1.1, ease: 'power4.out' }, 1.7)
+      .to(canL, { y: 0, duration: 1.1, ease: 'power4.out' }, 1.84)
+      .to(canR, { y: 0, duration: 1.1, ease: 'power4.out' }, 1.96)
+      .add(() => { Sound.thud(0); Sound.thud(.14); Sound.thud(.26); }, 1.95)
+      .to(glow, { opacity: 1, duration: 1.6 }, 1.8)
+      .to(fogLevel, { v: 1, duration: 2.2, ease: 'power1.out' }, 1.8)
+      .add(() => body.classList.remove('intro'), 2.4)
+      .to({}, { duration: .5 });
+  }
+
+  addEventListener('resize', () => { sizeFog(); pageFx.resize(innerWidth, innerHeight); });
+
+  // ---------- Intro starts on its own as soon as the cans are decoded ----------
+  gsap.set([canC, canL, canR], { y: -innerHeight * 1.2 });
+  gsap.set(glow, { opacity: 0 });
+  const ready = Promise.all([canC, canL, canR, fly].map(img => img.decode().catch(() => {})));
+  Promise.race([ready, new Promise(r => setTimeout(r, 2500))]).then(() => gsap.delayedCall(.1, playIntro));
+})();
+</script>
+</body>
+</html>
